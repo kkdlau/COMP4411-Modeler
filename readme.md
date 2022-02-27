@@ -1,5 +1,17 @@
 # COMP4411 - Modeler
 
+## Quick Links
+<ol>
+	  <!--- li>Project #2 <a href=Project2_Demo_Schedule_draft.pdf>Demo</a>
+	  <li><a href="COMP4411_PRO2_UPDATED.pptx">Slides 1</a>, <a href="Project2_HelpSession2.pptx"> Slides 2</a> <font size=-2>03/07/2022</font--->
+          <li><a href="https://course.cse.ust.hk/comp4411/Password_Only/projects/modeler/ModSkelS20.zip">VS19 Skeleton + sample executable</a> -- it contains FLTK and should compile alone.
+	</li><li> <a href="https://course.cse.ust.hk/comp4411/Password_Only/projects/modeler/modeler_checklist.txt">B&amp;W Checklist</a>
+	  </li><li><a href="https://course.cse.ust.hk/comp4411/Password_Only/projects/modeler/sample_modeler_sp02.exe">Sample modeler</a> <b>(cool demo courtesy of Tai Pang Wu, need <a href="https://course.cse.ust.hk/comp4411/Password_Only/projects/modeler/plane.bmp">this texture</a> to run)</b>
+          <!--- LI><A 
+          href="../../tools/fltk_install.html">FLTK headers and library (zip)</A--> 
+          </li><li><a href="https://course.cse.ust.hk/comp4411/Password_Only/projects/modeler/newdoc.html">How to use and extend the modeler</a> 
+          </li><li><a href="https://course.cse.ust.hk/comp4411/Password_Only/projects/modeler/demos/">Sample modeler applications </a> <!--<li><a href="robotarm.cpp">Robotarm.cpp from Monday help session</a>--></li></ol>
+
 ## Basic Requirement
 
 ### Character & Control
