@@ -1,0 +1,3 @@
+/Users/dannylau/Desktop/COMP4411-Modeler/build/CMakeFiles/rebuild_cache.dir
+/Users/dannylau/Desktop/COMP4411-Modeler/build/CMakeFiles/edit_cache.dir
+/Users/dannylau/Desktop/COMP4411-Modeler/build/CMakeFiles/proj1.dir

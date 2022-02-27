@@ -1,0 +1,37 @@
+[
+{
+  "directory": "/Users/dannylau/Desktop/COMP4411-Modeler/build",
+  "command": "/usr/bin/clang++  -DGL_SILENCE_DEPRECATION -D_DEBUG -D_MSC_VER=1300 -I../. -I.././fltk-1.3.3 -I/usr/local/include -F/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.0.sdk/System/Library/Frameworks   -Wno-nonportable-include-path -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.0.sdk   -std=gnu++14 -o CMakeFiles/proj1.dir/bitmap.cpp.o -c /Users/dannylau/Desktop/COMP4411-Modeler/bitmap.cpp",
+  "file": "/Users/dannylau/Desktop/COMP4411-Modeler/bitmap.cpp"
+},
+
+{
+  "directory": "/Users/dannylau/Desktop/COMP4411-Modeler/build",
+  "command": "/usr/bin/clang++  -DGL_SILENCE_DEPRECATION -D_DEBUG -D_MSC_VER=1300 -I../. -I.././fltk-1.3.3 -I/usr/local/include -F/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.0.sdk/System/Library/Frameworks   -Wno-nonportable-include-path -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.0.sdk   -std=gnu++14 -o CMakeFiles/proj1.dir/camera.cpp.o -c /Users/dannylau/Desktop/COMP4411-Modeler/camera.cpp",
+  "file": "/Users/dannylau/Desktop/COMP4411-Modeler/camera.cpp"
+},
+
+{
+  "directory": "/Users/dannylau/Desktop/COMP4411-Modeler/build",
+  "command": "/usr/bin/clang++  -DGL_SILENCE_DEPRECATION -D_DEBUG -D_MSC_VER=1300 -I../. -I.././fltk-1.3.3 -I/usr/local/include -F/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.0.sdk/System/Library/Frameworks   -Wno-nonportable-include-path -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.0.sdk   -std=gnu++14 -o CMakeFiles/proj1.dir/modelerapp.cpp.o -c /Users/dannylau/Desktop/COMP4411-Modeler/modelerapp.cpp",
+  "file": "/Users/dannylau/Desktop/COMP4411-Modeler/modelerapp.cpp"
+},
+
+{
+  "directory": "/Users/dannylau/Desktop/COMP4411-Modeler/build",
+  "command": "/usr/bin/clang++  -DGL_SILENCE_DEPRECATION -D_DEBUG -D_MSC_VER=1300 -I../. -I.././fltk-1.3.3 -I/usr/local/include -F/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.0.sdk/System/Library/Frameworks   -Wno-nonportable-include-path -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.0.sdk   -std=gnu++14 -o CMakeFiles/proj1.dir/modelerdraw.cpp.o -c /Users/dannylau/Desktop/COMP4411-Modeler/modelerdraw.cpp",
+  "file": "/Users/dannylau/Desktop/COMP4411-Modeler/modelerdraw.cpp"
+},
+
+{
+  "directory": "/Users/dannylau/Desktop/COMP4411-Modeler/build",
+  "command": "/usr/bin/clang++  -DGL_SILENCE_DEPRECATION -D_DEBUG -D_MSC_VER=1300 -I../. -I.././fltk-1.3.3 -I/usr/local/include -F/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.0.sdk/System/Library/Frameworks   -Wno-nonportable-include-path -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.0.sdk   -std=gnu++14 -o CMakeFiles/proj1.dir/modelerview.cpp.o -c /Users/dannylau/Desktop/COMP4411-Modeler/modelerview.cpp",
+  "file": "/Users/dannylau/Desktop/COMP4411-Modeler/modelerview.cpp"
+},
+
+{
+  "directory": "/Users/dannylau/Desktop/COMP4411-Modeler/build",
+  "command": "/usr/bin/clang++  -DGL_SILENCE_DEPRECATION -D_DEBUG -D_MSC_VER=1300 -I../. -I.././fltk-1.3.3 -I/usr/local/include -F/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.0.sdk/System/Library/Frameworks   -Wno-nonportable-include-path -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.0.sdk   -std=gnu++14 -o CMakeFiles/proj1.dir/sample.cpp.o -c /Users/dannylau/Desktop/COMP4411-Modeler/sample.cpp",
+  "file": "/Users/dannylau/Desktop/COMP4411-Modeler/sample.cpp"
+}
+]
