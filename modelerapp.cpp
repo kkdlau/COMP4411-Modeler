@@ -11,9 +11,6 @@
 #include <cstdlib>
 #include <cstring>
 
-//
-#include "modelerui.cxx"
-
 // CLASS ModelerControl METHODS
 
 ModelerControl::ModelerControl()
