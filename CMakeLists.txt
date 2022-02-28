@@ -30,6 +30,7 @@ set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wno-nonportable-include-path")
 
 file(GLOB SRC_FILES    
     "*.cpp"
+    "*.cxx"
     "*.hpp"
 )
 
