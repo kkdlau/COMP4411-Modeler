@@ -23,7 +23,7 @@ include_directories(${FLTK_INCLUDE_DIR})
 target_link_libraries(proj1 PRIVATE ${FLTK_LIBRARIES})
 
 # add_definitions(-DPROJ_DEBUG)
-add_definitions(-D_DEBUG)
+add_definitions(-DENABLE_DEBUGGER)
 add_definitions(-D_MSC_VER=1300)
 add_definitions(-DGL_SILENCE_DEPRECATION)
 set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wno-nonportable-include-path")
