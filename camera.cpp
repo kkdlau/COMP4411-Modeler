@@ -168,4 +168,6 @@ void Camera::applyViewingTransform() {
             mLookAt[2], mUpVector[0], mUpVector[1], mUpVector[2]);
 }
 
+void Camera::lookAt(Vec3f eye, Vec3f at, Vec3f up) {}
+
 #pragma warning(pop)
