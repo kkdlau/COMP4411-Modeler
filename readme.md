@@ -28,7 +28,7 @@
    - For example, in a model of a human, you might have a slider that straightens a leg by extending both the knee and hip joints.
 
 ### Camera
- - [ ] implement your own version of gluLookAt(): `void Camera::lookAt(double *eye, double *at, double *up)` (M)
+ - [x] implement your own version of gluLookAt(): `void Camera::lookAt(double *eye, double *at, double *up)` (M)
     - `double *eye`: it is **a 3 element arrays** that specify the position of the camera, the point it is looking at and the up vector in world co-ordinates. Using these arguments, your function should apply a series of translations and rotations (or construct a matrix) that effectively moves the camera to the specified position and orientation
     - You can use whatever method (i.e. the standard transformations (glTranslate, glRotate, glScale), matrix construction) as long as you are not using the gluLookAt itself
     - Originally it is implemented by using applyViewingTransform() uses gluLookAt() to perform a viewing transform
