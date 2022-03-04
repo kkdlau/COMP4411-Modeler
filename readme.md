@@ -35,7 +35,7 @@
 
 ## Bonus (Bells and Whistles)
 
- - [ ] 1W: Change the default light source to illuminate your scene more dramatically.
+ - [x] 1W: Change the default light source to illuminate your scene more dramatically. (M)
 
  - [ ] 1W: Allow for adjustable levels of detail for your character. You will need to add a UI control for this.
 

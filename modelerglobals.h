@@ -11,7 +11,7 @@ using namespace std;
 // This is a list of the controls for the SampleModel
 // We'll use these constants to access the values
 // of the controls from the user interface.
-enum SampleModelControls { XPOS, YPOS, ZPOS, HEIGHT, ROTATE, NUMCONTROLS };
+enum SampleModelControls { XPOS, YPOS, ZPOS, HEIGHT, ROTATE, LIGHT_XPOS, LIGHT_YPOS, LIGHT_ZPOS, LIGHT_INTENSITY, NUMCONTROLS };
 
 static inline void
 for_each_control(function<void(SampleModelControls)> handler) {
