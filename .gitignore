@@ -6,3 +6,6 @@ Debug/*
 
 Release/
 Release/*
+
+.vs/
+.vscode/
