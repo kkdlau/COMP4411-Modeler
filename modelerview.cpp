@@ -4,7 +4,9 @@
 #include <FL/Fl.H>
 #include <FL/Fl_Gl_Window.h>
 #include <FL/gl.h>
+#include <FL/names.h>
 //
+#include "debug_utils.h"
 #include "gl_header.h"
 #include <cstdio>
 
@@ -23,6 +25,8 @@ int ModelerView::handle(int event) {
   unsigned eventCoordY = Fl::event_y();
   unsigned eventButton = Fl::event_button();
   unsigned eventState = Fl::event_state();
+
+  debugger("event: %s", fl_eventnames[event]);
 
   switch (event) {
   case FL_PUSH: {
@@ -53,6 +57,11 @@ int ModelerView::handle(int event) {
     }
     //  printf("release %d %d\n", eventCoordX, eventCoordY);
   } break;
+#if MINIMIZE_WINDOW_EXIT
+  case FL_HIDE: {
+    exit(0);
+  } break;
+#endif
   default:
     return 0;
   }

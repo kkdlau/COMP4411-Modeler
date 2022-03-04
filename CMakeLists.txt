@@ -24,6 +24,7 @@ target_link_libraries(proj1 PRIVATE ${FLTK_LIBRARIES})
 
 # add_definitions(-DPROJ_DEBUG)
 add_definitions(-DENABLE_DEBUGGER)
+add_definitions(-DMINIMIZE_WINDOW_EXIT)
 add_definitions(-D_MSC_VER=1300)
 add_definitions(-DGL_SILENCE_DEPRECATION)
 set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -Wno-nonportable-include-path")
