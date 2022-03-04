@@ -15,20 +15,20 @@
 ## Basic Requirement
 
 ### Character & Control
- - [ ] Constructs a character
+ - [ ] Constructs a character (D)
    - [ ] can be composed solely of primitive shapes (box, generalized cylinder, sphere, and triangle)
    - [ ] It should use at least ten primitives and at least four levels of hierarchy
    - [ ] use at least one each of the `glTranslate()`, `glRotate()` and `glScale()` calls to position these primitives in space
    - [ ] must also use `glPushMatrix()` and `glPopMatrix()` to nest your matrix transformations
- - [ ] Adds at least one of these as a control knob (slider, actually) for some joint/component of your model
- - [ ] hooking sliders to different features of your model using the functions for creating sliders provided by the skeleton
- - [ ] Some simple action as you scrub a slider back and forth
+ - [ ] Adds at least one of these as a control knob (slider, actually) for some joint/component of your model (M)
+ - [ ] hooking sliders to different features of your model using the functions for creating sliders provided by the skeleton (D)
+ - [ ] Some simple action as you scrub a slider back and forth (D)
  - [ ] At least one of your controls must be tied to more than one joint/component
  - [ ] This knob will change the input to some function that determines how several parts of your model can move
    - For example, in a model of a human, you might have a slider that straightens a leg by extending both the knee and hip joints.
 
 ### Camera
- - [ ] implement your own version of gluLookAt(): `void Camera::lookAt(double *eye, double *at, double *up)`
+ - [ ] implement your own version of gluLookAt(): `void Camera::lookAt(double *eye, double *at, double *up)` (M)
     - `double *eye`: it is **a 3 element arrays** that specify the position of the camera, the point it is looking at and the up vector in world co-ordinates. Using these arguments, your function should apply a series of translations and rotations (or construct a matrix) that effectively moves the camera to the specified position and orientation
     - You can use whatever method (i.e. the standard transformations (glTranslate, glRotate, glScale), matrix construction) as long as you are not using the gluLookAt itself
     - Originally it is implemented by using applyViewingTransform() uses gluLookAt() to perform a viewing transform
