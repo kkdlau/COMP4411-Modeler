@@ -32,6 +32,15 @@ void CatModel::draw() {
   // projection matrix, don't bother with this ...
   ModelerView::draw();
 
+  // 1B: dramatic lighting
+  GLfloat lightIntensity[]{ VAL(LIGHT_INTENSITY)-0.75, VAL(LIGHT_INTENSITY)-0.25, VAL(LIGHT_INTENSITY), 1 };
+  GLfloat lightPosition2[]{ VAL(LIGHT_XPOS), VAL(LIGHT_YPOS), VAL(LIGHT_ZPOS), 0 };
+  GLfloat lightDiffuse2[]{ 1,1,1,1 };
+  glEnable(GL_LIGHT2);
+  glLightfv(GL_LIGHT2, GL_POSITION, lightPosition2);
+  glLightfv(GL_LIGHT2, GL_DIFFUSE, lightDiffuse2);
+  glLightfv(GL_LIGHT2, GL_AMBIENT, lightIntensity);
+
   // draw the floor
   setAmbientColor(.1f, .1f, .1f);
   setDiffuseColor(COLOR_RED);
@@ -59,11 +68,15 @@ int main() {
   // Constructor is ModelerControl(name, minimumvalue, maximumvalue,
   // stepsize, defaultvalue)
   ModelerControl controls[NUMCONTROLS];
-  controls[XPOS] = ModelerControl("J Position", -5, 5, 0.1f, 0);
+  controls[XPOS] = ModelerControl("X Position", -5, 5, 0.1f, 0);
   controls[YPOS] = ModelerControl("Y Position", 0, 5, 0.1f, 0);
   controls[ZPOS] = ModelerControl("Z Position", -5, 5, 0.1f, 0);
   controls[HEIGHT] = ModelerControl("Height", 1, 2.5, 0.1f, 1);
   controls[ROTATE] = ModelerControl("Rotate", -135, 135, 1, 0);
+  controls[LIGHT_XPOS] = ModelerControl("Light X Position", -10, 10, 0.1f, 0);
+  controls[LIGHT_YPOS] = ModelerControl("Light Y Position", 0, 10, 0.1f, 0);
+  controls[LIGHT_ZPOS] = ModelerControl("Light Z Position", -10, 10, 0.1f, 0);
+  controls[LIGHT_INTENSITY] = ModelerControl("Light Intensity", 0, 1, 0.1f, 0);
 
   ModelerApplication::Instance()->Init(&createSampleModel, controls,
                                        NUMCONTROLS);

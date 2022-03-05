@@ -36,6 +36,9 @@
     <ClCompile Include="sample.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="cat.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bitmap.h">
@@ -64,6 +67,9 @@
     </ClInclude>
     <ClInclude Include="vec.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CatModel.hpp">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
