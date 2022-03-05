@@ -20,7 +20,7 @@
    - [ ] It should use at least ten primitives and at least four levels of hierarchy
    - [ ] use at least one each of the `glTranslate()`, `glRotate()` and `glScale()` calls to position these primitives in space
    - [ ] must also use `glPushMatrix()` and `glPopMatrix()` to nest your matrix transformations
- - [ ] Adds at least one of these as a control knob (slider, actually) for some joint/component of your model (M)
+ - [ ] Adds at least one of these as a control knob (slider, actually) for some joint/component of your model - rotate head (M)
  - [ ] hooking sliders to different features of your model using the functions for creating sliders provided by the skeleton (D)
  - [ ] Some simple action as you scrub a slider back and forth (D)
  - [ ] At least one of your controls must be tied to more than one joint/component
@@ -37,13 +37,13 @@
 
  - [x] 1W: Change the default light source to illuminate your scene more dramatically. (M)
 
- - [ ] 1W: Allow for adjustable levels of detail for your character. You will need to add a UI control for this. (D)
+ - [ ] 1W: Allow for adjustable levels of detail for your character. You will need to add a UI control for this. (D)  
 
- - [ ] 1W: Come up with another whistle and implement it.  A whistle is something that extends the use of one of the things you are already doing.  It is part of the basic model construction, but extended or cloned and modified in an interesting way.
+ - [ ] 1W: Come up with another whistle and implement it.  A whistle is something that extends the use of one of the things you are already doing.  It is part of the basic model construction, but extended or cloned and modified in an interesting way.  
+    - like you can adjust the number of cylinders in the tail?
 
-
- - [ ] 1B: Use a texture map on all or part of your character. (The safest way to do this is to implement your own primitives inside your model file that do texture mapping.) (M)
-
+ - [x] 1B: Use a texture map on all or part of your character. (The safest way to do this is to implement your own primitives inside your model file that do texture mapping.) (M)
+    - done for boxes only 
 
  - [ ] 1B: Build a complex shape as a set of polygonal faces, using the "triangle" primitive to render them. (D)
 

@@ -71,5 +71,8 @@
     <ClInclude Include="CatModel.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="Header.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

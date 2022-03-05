@@ -191,6 +191,7 @@
     <ClInclude Include="bitmap.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="CatModel.hpp" />
+    <ClInclude Include="Header.h" />
     <ClInclude Include="mat.h" />
     <ClInclude Include="modelerapp.h" />
     <ClInclude Include="modelerdraw.h" />

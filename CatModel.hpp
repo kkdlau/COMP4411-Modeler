@@ -3,12 +3,13 @@
 #include "BaseModel.hpp"
 #include "debug_utils.h"
 #include "modelerdraw.h"
+#include "texturedraw.hpp"
 
 class CatHead : public BaseModel {
 public:
   CatHead() {}
   void draw() {
-    drawBox(1.3, 1.3, 0.8);
+    drawTextureBody(1.3, 1.3, 0.8);
     float y = 1.3;
     drawTriangle(0, y, 0, 0.5, y, 0, 0.25, 0.25 + y, 0);
     drawTriangle(1.3, y, 0, 1.3 - 0.5, y, 0, 1.3 - 0.25, 0.25 + y, 0);
@@ -63,7 +64,7 @@ public:
   CatHead *h;
   CatTail *t;
 
-  CatBody(float x, float y, float z) {
+  CatBody(float x, float y, float z) { // (x, y, z) position
     pre_draw_transformation = [&](BaseModel *self) {
       glTranslated(x, y, z);
       glScaled(2, 1, 4);
@@ -109,7 +110,7 @@ public:
     children.push_back(t);
   }
 
-  void draw() { drawBox(1, 1.3, 1); }
+  void draw() { drawTextureBody(1, 1.3, 1); }
 
   void render() { BaseModel::render(); }
 };
