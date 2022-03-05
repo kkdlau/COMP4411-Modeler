@@ -26,8 +26,6 @@ int ModelerView::handle(int event) {
   unsigned eventButton = Fl::event_button();
   unsigned eventState = Fl::event_state();
 
-  debugger("event: %s", fl_eventnames[event]);
-
   switch (event) {
   case FL_PUSH: {
     switch (eventButton) {
