@@ -58,7 +58,7 @@ void drawTextureBody(double x, double y, double z) {
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         
         glEnable(GL_TEXTURE_2D);
-        glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+        glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL); // default is GL_MODULATE for interacting with light
         glBindTexture(GL_TEXTURE_2D, texImageId); // repeat?
 
         glPushMatrix();

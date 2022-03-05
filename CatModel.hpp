@@ -9,6 +9,7 @@ class CatHead : public BaseModel {
 public:
   CatHead() {}
   void draw() {
+    glTranslated(-1.3 / 2, -1.3 / 2, -0.8 / 2);
     drawTextureBody(1.3, 1.3, 0.8);
     float y = 1.3;
     drawTriangle(0, y, 0, 0.5, y, 0, 0.25, 0.25 + y, 0);
@@ -94,10 +95,10 @@ public:
 
     h = new CatHead;
     h->pre_draw_transformation = [&](BaseModel *self) {
-      glTranslated(0.35, 1.2, -0.1);
+      // glTranslated(0.35, 1.2, -0.1);
     };
 
-    t = new CatTail{0, 10, 20};
+    t = new CatTail{10, 10, 10};
     t->pre_draw_transformation = [&](BaseModel *self) {
       glTranslated(1, 0.5, 4);
     };
@@ -118,5 +119,5 @@ public:
 class Cat : public BaseModel {
 public:
   CatBody *b;
-  Cat() { child = b = new CatBody(-1.5, 1, -2); }
+  Cat(float x, float y, float z) { child = b = new CatBody(x, y, z); }
 };
