@@ -7,7 +7,12 @@
 class CatHead : public BaseModel {
 public:
   CatHead() {}
-  void draw() { drawBox(1.3, 1.3, 0.8); }
+  void draw() {
+    drawBox(1.3, 1.3, 0.8);
+    float y = 1.3;
+    drawTriangle(0, y, 0, 0.5, y, 0, 0.25, 0.25 + y, 0);
+    drawTriangle(1.3, y, 0, 1.3 - 0.5, y, 0, 1.3 - 0.25, 0.25 + y, 0);
+  }
 };
 
 class CatLeg : public BaseModel {
