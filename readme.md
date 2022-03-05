@@ -37,23 +37,23 @@
 
  - [x] 1W: Change the default light source to illuminate your scene more dramatically. (M)
 
- - [ ] 1W: Allow for adjustable levels of detail for your character. You will need to add a UI control for this.
+ - [ ] 1W: Allow for adjustable levels of detail for your character. You will need to add a UI control for this. (D)
 
  - [ ] 1W: Come up with another whistle and implement it.  A whistle is something that extends the use of one of the things you are already doing.  It is part of the basic model construction, but extended or cloned and modified in an interesting way.
 
 
- - [ ] 1B: Use a texture map on all or part of your character. (The safest way to do this is to implement your own primitives inside your model file that do texture mapping.)
+ - [ ] 1B: Use a texture map on all or part of your character. (The safest way to do this is to implement your own primitives inside your model file that do texture mapping.) (M)
 
 
- - [ ] 1B: Build a complex shape as a set of polygonal faces, using the "triangle" primitive to render them.
+ - [ ] 1B: Build a complex shape as a set of polygonal faces, using the "triangle" primitive to render them. (D)
 
 
- - [ ] 1B: Make an additional "animated" sequence your character can perform.  Although you can try to use a timed callback "add_idle" (see [here](https://www.fltk.org/documentation.php) for more information), an easier solution is just to increment values each time your model's draw() function is called. If you use the menu option to turn on animation, your draw() function will be executed at around 30 times per second.
+ - [ ] 1B: Make an additional "animated" sequence your character can perform.  Although you can try to use a timed callback "add_idle" (see [here](https://www.fltk.org/documentation.php) for more information), an easier solution is just to increment values each time your model's draw() function is called. If you use the menu option to turn on animation, your draw() function will be executed at around 30 times per second. (D)
 
- - [ ] 1B: Add some widgets that control adjustable parameters to your model so that you can create individual-looking instances of your character.  Try to make these actually different individuals, not just "the red guy" and "the blue guy."
+ - [ ] 1B: Add some widgets that control adjustable parameters to your model so that you can create individual-looking instances of your character.  Try to make these actually different individuals, not just "the red guy" and "the blue guy." (M)
 
 
- - [ ] 1B: Add a "Frame All" feature that would change the position of the camera such that your model is entirely visible in the model window, regardless of the pose and location of your model.
+ - [ ] 1B: Add a "Frame All" feature that would change the position of the camera such that your model is entirely visible in the model window, regardless of the pose and location of your model. (M)
 
  - [ ] 1B1W: The camera code has a constrained up vector -- modify the code to (1) handle camera twists (the framework is already there) and (2) to come up with an intuitive way for the user to twist the camera via mouse control.
 
