@@ -16,12 +16,12 @@
 
 ### Character & Control
  - [ ] Constructs a character (D)
-   - [ ] can be composed solely of primitive shapes (box, generalized cylinder, sphere, and triangle)
-   - [ ] It should use at least ten primitives and at least four levels of hierarchy
-   - [ ] use at least one each of the `glTranslate()`, `glRotate()` and `glScale()` calls to position these primitives in space
-   - [ ] must also use `glPushMatrix()` and `glPopMatrix()` to nest your matrix transformations
+   - [x] can be composed solely of primitive shapes (box, generalized cylinder, sphere, and triangle)
+   - [x] It should use at least ten primitives and at least four levels of hierarchy
+   - [x] use at least one each of the `glTranslate()`, `glRotate()` and `glScale()` calls to position these primitives in space
+   - [x] must also use `glPushMatrix()` and `glPopMatrix()` to nest your matrix transformations
  - [ ] Adds at least one of these as a control knob (slider, actually) for some joint/component of your model (M)
- - [ ] hooking sliders to different features of your model using the functions for creating sliders provided by the skeleton (D)
+ - [ ] hobaseoking sliders to different features of your model using the functions for creating sliders provided by the skeleton (D)
  - [ ] Some simple action as you scrub a slider back and forth (D)
  - [ ] At least one of your controls must be tied to more than one joint/component
  - [ ] This knob will change the input to some function that determines how several parts of your model can move

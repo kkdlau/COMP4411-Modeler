@@ -11,7 +11,18 @@ using namespace std;
 // This is a list of the controls for the SampleModel
 // We'll use these constants to access the values
 // of the controls from the user interface.
-enum SampleModelControls { XPOS, YPOS, ZPOS, HEIGHT, ROTATE, LIGHT_XPOS, LIGHT_YPOS, LIGHT_ZPOS, LIGHT_INTENSITY, NUMCONTROLS };
+enum SampleModelControls {
+  XPOS,
+  YPOS,
+  ZPOS,
+  HEIGHT,
+  ROTATE,
+  LIGHT_XPOS,
+  LIGHT_YPOS,
+  LIGHT_ZPOS,
+  LIGHT_INTENSITY,
+  NUMCONTROLS
+};
 
 static inline void
 for_each_control(function<void(SampleModelControls)> handler) {
@@ -26,6 +37,6 @@ for_each_control(function<void(SampleModelControls)> handler) {
 
 // We'll be getting the instance of the application a lot;
 // might as well have it as a macro.
-#define VAL(x) (ModelerApplication::Instance()->GetControlValue(x))
+#define VAL(x) (float)(ModelerApplication::Instance()->GetControlValue(x))
 
 #endif

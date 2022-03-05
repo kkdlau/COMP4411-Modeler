@@ -5,7 +5,7 @@
 using namespace std;
 
 class BaseModel {
-protected:
+public:
   BaseModel() : children{} {}
   BaseModel(BaseModel *child) : children{} {
     this->child = child;
@@ -20,6 +20,9 @@ protected:
 public:
   function<void(BaseModel *)> pre_draw_transformation = nullptr;
   function<void(BaseModel *)> post_draw_transformation = nullptr;
+
+  function<void(BaseModel *)> pre_render_transformation = nullptr;
+  function<void(BaseModel *)> post_render_transformation = nullptr;
   BaseModel *child = nullptr;
   vector<BaseModel *> children;
   bool list;
@@ -38,6 +41,8 @@ public:
    */
   virtual void render() {
     glPushMatrix();
+    safe_call(pre_render_transformation);
+
     safe_call(pre_draw_transformation);
     draw();
     safe_call(post_draw_transformation);
@@ -49,6 +54,8 @@ public:
     if (child) {
       child->render();
     }
+
+    safe_call(post_render_transformation);
 
     glPopMatrix();
   }
