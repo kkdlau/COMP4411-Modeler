@@ -41,14 +41,17 @@ void draw_head(float head_width, float head_height) {
   {
     glTranslated(-head_width / 2, -head_height / 2, -0.8 / 2);
     drawBox(head_width, head_height, 0.8);
+    glTranslated(0, head_height, 0);
+    glRotated(VAL(ROTATE), 1, 0, 0);
+    glTranslated(0, -head_height, 0);
 #define p1 0, 0 + head_height, 0
 #define p2 0.5, 0 + head_height, 0
-#define p3 0.25, 0.25 + head_height, 0
+#define p3 0.25, 1 + head_height, 0
     drawTriangle(p1, p2, p3);
 
 #define p1 1.3, 0 + head_height, 0
 #define p2 1.3 - 0.5, 0 + head_height, 0
-#define p3 1.3 - 0.25, 0.25 + head_height, 0
+#define p3 1.3 - 0.25, 1 + head_height, 0
     drawTriangle(p1, p2, p3);
   }
   glPopMatrix();
@@ -176,9 +179,8 @@ int main() {
   controls[YPOS] = ModelerControl("Y Position", 0, 5, 0.1f, 0);
   controls[ZPOS] = ModelerControl("Z Position", -5, 5, 0.1f, 0);
   controls[HEIGHT] = ModelerControl("Height", 1, 2.5, 0.1f, 1);
-  controls[ROTATE] = ModelerControl("Rotate", -135, 135, 1, 0);
+  controls[ROTATE] = ModelerControl("Rotate", -30, 30, 1, 0);
 
-  controls[ROTATE_HEAD] = ModelerControl("Rotate Head", 45, 135, 90, 0); // check what the original value should be 90 or 0
   controls[LIGHT_XPOS] = ModelerControl("Light X Position", -10, 10, 0.1f, 0);
   controls[LIGHT_YPOS] = ModelerControl("Light Y Position", 0, 10, 0.1f, 0);
   controls[LIGHT_ZPOS] = ModelerControl("Light Z Position", -10, 10, 0.1f, 0);
