@@ -21,6 +21,7 @@ enum SampleModelControls {
   LIGHT_YPOS,
   LIGHT_ZPOS,
   LIGHT_INTENSITY,
+  TAIL_ANGLE,
   NUMCONTROLS
 };
 

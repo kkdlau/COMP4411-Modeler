@@ -15,16 +15,16 @@
 ## Basic Requirement
 
 ### Character & Control
- - [ ] Constructs a character (D)
+ - [x] Constructs a character (D)
    - [x] can be composed solely of primitive shapes (box, generalized cylinder, sphere, and triangle)
    - [x] It should use at least ten primitives and at least four levels of hierarchy
    - [x] use at least one each of the `glTranslate()`, `glRotate()` and `glScale()` calls to position these primitives in space
    - [x] must also use `glPushMatrix()` and `glPopMatrix()` to nest your matrix transformations
- - [ ] Adds at least one of these as a control knob (slider, actually) for some joint/component of your model (M)
- - [ ] hobaseoking sliders to different features of your model using the functions for creating sliders provided by the skeleton (D)
- - [ ] Some simple action as you scrub a slider back and forth (D)
- - [ ] At least one of your controls must be tied to more than one joint/component
- - [ ] This knob will change the input to some function that determines how several parts of your model can move
+ - [x] Adds at least one of these as a control knob (slider, actually) for some joint/component of your model (M)
+ - [x] hobaseoking sliders to different features of your model using the functions for creating sliders provided by the skeleton (D)
+ - [x] Some simple action as you scrub a slider back and forth (D)
+ - [x] At least one of your controls must be tied to more than one joint/component
+ - [x] This knob will change the input to some function that determines how several parts of your model can move
    - For example, in a model of a human, you might have a slider that straightens a leg by extending both the knee and hip joints.
 
 ### Camera
