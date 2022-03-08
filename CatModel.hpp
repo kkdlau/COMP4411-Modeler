@@ -10,7 +10,7 @@ public:
   CatHead() {}
   void draw() {
     glTranslated(-1.3 / 2, -1.3 / 2, -0.8 / 2);
-    drawTextureBody(1.3, 1.3, 0.8);
+    drawTextureQuad(1.3, 1.3, 0.8, 1);
     float y = 1.3;
     drawTriangle(0, y, 0, 0.5, y, 0, 0.25, 0.25 + y, 0);
     drawTriangle(1.3, y, 0, 1.3 - 0.5, y, 0, 1.3 - 0.25, 0.25 + y, 0);
@@ -25,7 +25,7 @@ public:
   void draw() {
     glRotated(rotate, 0.0, 0.0, 0);
     glRotated(-90, 1.0, 0.0, 0.0);
-    drawCylinder(1, radius, radius);
+    drawTextureCylinder(1, radius, radius, VAL(INDIVIDUAL));
   }
 };
 
@@ -46,7 +46,7 @@ public:
     };
   }
 
-  void draw() { drawCylinder(length, radius, radius); }
+  void draw() { drawTextureCylinder(length, radius, radius, VAL(INDIVIDUAL)); }
 };
 
 class CatTail : public BaseModel {
@@ -111,7 +111,7 @@ public:
     children.push_back(t);
   }
 
-  void draw() { drawTextureBody(1, 1.3, 1); }
+  void draw() { drawTextureQuad(1, 1.3, 1, 1); }
 
   void render() { BaseModel::render(); }
 };

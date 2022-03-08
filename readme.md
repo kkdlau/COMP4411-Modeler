@@ -50,8 +50,8 @@
 
  - [ ] 1B: Make an additional "animated" sequence your character can perform.  Although you can try to use a timed callback "add_idle" (see [here](https://www.fltk.org/documentation.php) for more information), an easier solution is just to increment values each time your model's draw() function is called. If you use the menu option to turn on animation, your draw() function will be executed at around 30 times per second. (D)
 
- - [ ] 1B: Add some widgets that control adjustable parameters to your model so that you can create individual-looking instances of your character.  Try to make these actually different individuals, not just "the red guy" and "the blue guy." (M)
-
+ - [x] 1B: Add some widgets that control adjustable parameters to your model so that you can create individual-looking instances of your character.  Try to make these actually different individuals, not just "the red guy" and "the blue guy." (M)
+    - But probably should come back and make nicer things??? like change the body to a cylinder for the fat cat...
 
  - [ ] 1B: Add a "Frame All" feature that would change the position of the camera such that your model is entirely visible in the model window, regardless of the pose and location of your model. (M)
 
@@ -78,3 +78,7 @@
     that computes the intermediate angles necessary such that all constrains are satisfied (or, if the constraints can not be satisfied, the square of the distance violations is minimized).
 
  - [ ] 4B:  Make sure that all angle constraints are satisfied as well. In your model, for instance, you might have a slider that constrains the elbow angle between 30 and 180 degrees.  Look [here](https://course.cse.ust.hk/comp4411/Password_Only/projects/modeler/inverse-kinematics.pdf) for some related material.
+
+
+ ### Bugs  
+ - [ ] When head width changes, the ear position does not follow  

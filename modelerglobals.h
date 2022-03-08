@@ -30,6 +30,7 @@ enum SampleModelControls {
   BODY_LENGTH,
   BODY_DEPTH,
   EAR_LENGTH,
+  INDIVIDUAL,
   NUMCONTROLS
 };
 

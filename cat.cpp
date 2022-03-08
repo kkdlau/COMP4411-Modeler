@@ -26,12 +26,49 @@ ModelerView *createSampleModel(int x, int y, int w, int h, char *label) {
   return new CatModel(x, y, w, h, label);
 }
 
+void setIndividual() {
+    if (VAL(INDIVIDUAL) == 1) { // normal orange cat
+        ModelerApplication::Instance()->SetControlValue(TAIL_ANGLE, 0);
+        ModelerApplication::Instance()->SetControlValue(NUM_TAIL_COMPONENT, 3);
+        ModelerApplication::Instance()->SetControlValue(HEAD_WIDTH, 1.3);
+        ModelerApplication::Instance()->SetControlValue(HEAD_HEIGHT, 1.3);
+        ModelerApplication::Instance()->SetControlValue(LEG_LENGTH, 1.3);
+        ModelerApplication::Instance()->SetControlValue(EAR_LENGTH, 0.5);
+        ModelerApplication::Instance()->SetControlValue(BODY_DEPTH, 1.3);
+        ModelerApplication::Instance()->SetControlValue(BODY_LENGTH, 4);
+        ModelerApplication::Instance()->SetControlValue(BODY_WIDTH, 2);
+    }
+    else if (VAL(INDIVIDUAL) == 2) { // fat grey cat
+        ModelerApplication::Instance()->SetControlValue(TAIL_ANGLE, 30);
+        ModelerApplication::Instance()->SetControlValue(NUM_TAIL_COMPONENT, 7);
+        ModelerApplication::Instance()->SetControlValue(HEAD_WIDTH, 2);
+        ModelerApplication::Instance()->SetControlValue(HEAD_HEIGHT, 1.3);
+        ModelerApplication::Instance()->SetControlValue(LEG_LENGTH, 0.5);
+        ModelerApplication::Instance()->SetControlValue(EAR_LENGTH, 1);
+        ModelerApplication::Instance()->SetControlValue(BODY_DEPTH, 1.3);
+        ModelerApplication::Instance()->SetControlValue(BODY_LENGTH, 4);
+        ModelerApplication::Instance()->SetControlValue(BODY_WIDTH, 3);
+    }
+    else if (VAL(INDIVIDUAL) == 3) { // lean spotty cat
+        ModelerApplication::Instance()->SetControlValue(TAIL_ANGLE, 10);
+        ModelerApplication::Instance()->SetControlValue(NUM_TAIL_COMPONENT, 7);
+        ModelerApplication::Instance()->SetControlValue(HEAD_WIDTH, 1.8);
+        ModelerApplication::Instance()->SetControlValue(HEAD_HEIGHT, 2);
+        ModelerApplication::Instance()->SetControlValue(LEG_LENGTH, 2.5);
+        ModelerApplication::Instance()->SetControlValue(EAR_LENGTH, 2);
+        ModelerApplication::Instance()->SetControlValue(BODY_DEPTH, 1.5);
+        ModelerApplication::Instance()->SetControlValue(BODY_LENGTH, 6);
+        ModelerApplication::Instance()->SetControlValue(BODY_WIDTH, 2);
+    }
+    
+}
+
 void draw_leg(float rad = 0.25, float rot = 0.0f) {
   glPushMatrix();
   {
     glRotated(rot, 0.0, 0.0, 0);
     glRotated(90, 1.0, 0.0, 0.0);
-    drawCylinder(VAL(LEG_LENGTH), rad, rad);
+    drawTextureCylinder(VAL(LEG_LENGTH), rad, rad, VAL(INDIVIDUAL));
   }
   glPopMatrix();
 }
@@ -49,9 +86,9 @@ void draw_head(float head_width, float head_height) {
 #define p3 0.25, VAL(EAR_LENGTH) + head_height, 0
     drawTriangle(p1, p2, p3);
 
-#define p1 1.3, 0 + head_height, 0
-#define p2 1.3 - 0.5, 0 + head_height, 0
-#define p3 1.3 - 0.25, VAL(EAR_LENGTH) + head_height, 0
+#define p1 head_width, 0 + head_height, 0
+#define p2 head_width - 0.5, 0 + head_height, 0
+#define p3 head_width - 0.25, VAL(EAR_LENGTH) + head_height, 0
     drawTriangle(p1, p2, p3);
   }
   glPopMatrix();
@@ -63,7 +100,7 @@ void draw_tailpart(float r, float scale, float length = 0.8,
   {
     glRotated(r, 1.0, 0.0, 0);
     glScaled(scale, scale, scale);
-    drawCylinder(length, radius, radius);
+    drawTextureCylinder(length, radius, radius, VAL(INDIVIDUAL));
     glTranslated(0, 0, length);
     if (child)
       child();
@@ -94,9 +131,10 @@ void draw_tail_recursive(float a, float len, float count) {
 void draw_cat() {
   glPushMatrix();
   {
+      glTranslated(VAL(XPOS), VAL(YPOS), VAL(ZPOS));
     glTranslated(-VAL(BODY_WIDTH) / 2, VAL(LEG_LENGTH), -VAL(BODY_LENGTH) / 2);
 
-    drawTextureBody(VAL(BODY_WIDTH), VAL(BODY_DEPTH), VAL(BODY_LENGTH));
+    drawTextureQuad(VAL(BODY_WIDTH), VAL(BODY_DEPTH), VAL(BODY_LENGTH), VAL(INDIVIDUAL));
     glPushMatrix();
     {
       // front_left
@@ -153,10 +191,9 @@ void draw_cat() {
 
 void CatModel::draw() {
   ModelerView::draw();
-
+  setIndividual();
   // 1B: dramatic lighting
-  GLfloat lightIntensity[]{VAL(LIGHT_INTENSITY), VAL(LIGHT_INTENSITY),
-                           VAL(LIGHT_INTENSITY), 1};
+  GLfloat lightIntensity[]{VAL(LIGHT_INTENSITY), 0, 0, 1};
   GLfloat lightPosition2[]{VAL(LIGHT_XPOS), VAL(LIGHT_YPOS), VAL(LIGHT_ZPOS),
                            0};
   GLfloat lightDiffuse2[]{1, 1, 1, 1};
@@ -178,7 +215,7 @@ void CatModel::draw() {
 
   // draw the sample model
   setAmbientColor(.1f, .1f, .1f);
-  setDiffuseColor(1.0, 1.0, 0.0);
+  setDiffuseColor(1.0, 1.0, 1.0);
   glPushMatrix();
 
   // glTranslated(1, 1, 1);
@@ -198,14 +235,14 @@ int main() {
   controls[YPOS] = ModelerControl("Y Position", 0, 5, 0.1f, 0);
   controls[ZPOS] = ModelerControl("Z Position", -5, 5, 0.1f, 0);
   controls[HEIGHT] = ModelerControl("Height", 1, 2.5, 0.1f, 1);
-  controls[ROTATE] = ModelerControl("Rotate", -30, 30, 1, 0);
+  controls[ROTATE] = ModelerControl("Rotate", -60, 60, 1, 0);
   controls[TAIL_ANGLE] = ModelerControl("Tail Curvature", -30, 30, 1, 0);
   controls[NUM_TAIL_COMPONENT] =
       ModelerControl("Number of tail components", 3, 10, 1, 3);
   controls[HEAD_WIDTH] = ModelerControl("Head Width", 1.3, 2, 0.1, 1.3);
   controls[HEAD_HEIGHT] = ModelerControl("Head Height", 1.3, 3, 0.1, 1.3);
-  controls[LEG_LENGTH] = ModelerControl("Leg Length", 1.3, 3, 0.1, 1.3);
-  controls[EAR_LENGTH] = ModelerControl("Ear Length", 1, 2, 0.1, 1);
+  controls[LEG_LENGTH] = ModelerControl("Leg Length", 0.5, 3, 0.1, 1.3);
+  controls[EAR_LENGTH] = ModelerControl("Ear Length", 0.5, 2, 0.1, 0.5);
 
   controls[BODY_DEPTH] = ModelerControl("Body Depth", 1.3, 3, 0.1, 1.3);
   controls[BODY_LENGTH] = ModelerControl("Body Length", 4, 6, 0.1, 4);
@@ -214,7 +251,9 @@ int main() {
   controls[LIGHT_XPOS] = ModelerControl("Light X Position", -10, 10, 0.1f, 0);
   controls[LIGHT_YPOS] = ModelerControl("Light Y Position", 0, 10, 0.1f, 0);
   controls[LIGHT_ZPOS] = ModelerControl("Light Z Position", -10, 10, 0.1f, 0);
-  controls[LIGHT_INTENSITY] = ModelerControl("Light Intensity", 0, 1, 0.1f, 0);
+  controls[LIGHT_INTENSITY] = ModelerControl("Red Light Intensity", 0, 1, 0.1f, 0);
+
+  controls[INDIVIDUAL] = ModelerControl("Individual Instances", 1, 3, 1, 1);
 
   // initialize texture maps
   initTextureMap();
