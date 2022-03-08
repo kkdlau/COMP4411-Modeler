@@ -7,6 +7,14 @@
 
 #include <FL/gl.h>
 #include <cstdio>
+#include <vector>
+using namespace std;
+
+struct Triangle {
+  double p1[3];
+  double p2[3];
+  double p3[3];
+}
 
 #include "modelerglobals.h"
 
@@ -100,5 +108,7 @@ void drawCylinder(double h, double r1, double r2);
 // Driangle with three given vertices.  Specify in counterclockwise direction
 void drawTriangle(double x1, double y1, double z1, double x2, double y2,
                   double z2, double x3, double y3, double z3);
+
+void drawPolygon(const vector<Triangle> &list);
 
 #endif

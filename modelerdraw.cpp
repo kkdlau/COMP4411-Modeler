@@ -400,3 +400,64 @@ void drawTriangle(double x1, double y1, double z1, double x2, double y2,
     glEnd();
   }
 }
+
+void drawPolygon(const vector<Triangle> &list) {
+  ModelerDrawState *mds = ModelerDrawState::Instance();
+
+  _setupOpenGl();
+
+  if (mds->m_rayFile) {
+    _dump_current_modelview();
+    for (auto &t : list) {
+      double x1 = t.p1[0];
+      double x2 = t.p2[0];
+      double x3 = t.p3[0];
+
+      double y1 = t.p1[1];
+      double y2 = t.p2[1];
+      double y3 = t.p3[1];
+
+      double z1 = t.p1[2];
+      double z2 = t.p2[2];
+      double z3 = t.p3[2];
+
+      fprintf(mds->m_rayFile,
+              "polymesh { points=((%f,%f,%f),(%f,%f,%f),(%f,%f,%f)); "
+              "faces=((0,1,2));\n",
+              x1, y1, z1, x2, y2, z2, x3, y3, z3);
+    }
+    _dump_current_material();
+    fprintf(mds->m_rayFile, "})\n");
+  } else {
+    double a, b, c, d, e, f;
+    glBegin(GL_TRIANGLES);
+    for (auto &t : list) {
+      double x1 = t.p1[0];
+      double x2 = t.p2[0];
+      double x3 = t.p3[0];
+
+      double y1 = t.p1[1];
+      double y2 = t.p2[1];
+      double y3 = t.p3[1];
+
+      double z1 = t.p1[2];
+      double z2 = t.p2[2];
+      double z3 = t.p3[2];
+
+      /* the normal to the triangle is the cross product of two of its edges. */
+      a = x2 - x1;
+      b = y2 - y1;
+      c = z2 - z1;
+
+      d = x3 - x1;
+      e = y3 - y1;
+      f = z3 - z1;
+
+      glNormal3d(b * f - c * e, c * d - a * f, a * e - b * d);
+      glVertex3d(x1, y1, z1);
+      glVertex3d(x2, y2, z2);
+      glVertex3d(x3, y3, z3);
+    }
+    glEnd();
+  }
+}

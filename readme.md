@@ -37,7 +37,7 @@
 
  - [x] 1W: Change the default light source to illuminate your scene more dramatically. (M)
 
- - [ ] 1W: Allow for adjustable levels of detail for your character. You will need to add a UI control for this. (D)
+ - [x] 1W: Allow for adjustable levels of detail for your character. You will need to add a UI control for this. (D)
 
  - [x] 1W: Come up with another whistle and implement it.  A whistle is something that extends the use of one of the things you are already doing.  It is part of the basic model construction, but extended or cloned and modified in an interesting way.  
     - By adjusting the number of cylinders in the tail
