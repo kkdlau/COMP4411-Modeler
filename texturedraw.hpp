@@ -41,7 +41,7 @@ void initTextureMap() {
 }
 
 void drawTextureQuad(double x, double y, double z, int individual) {
-    individual -= 1; // change from UI value to index
+    individual = individual - 1; // change from UI value to index
   ModelerDrawState *mds = ModelerDrawState::Instance();
 
   _setupOpenGl();
@@ -143,7 +143,7 @@ void drawTextureQuad(double x, double y, double z, int individual) {
 }
 
 void drawTextureCylinder(double h, double r1, double r2, int individual) {
-    individual -= 1; // change from UI value to index
+    individual = individual - 1; // change from UI value to index
     ModelerDrawState* mds = ModelerDrawState::Instance();
     _setupOpenGl();
     if (mds->m_rayFile) {

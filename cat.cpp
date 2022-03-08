@@ -26,8 +26,10 @@ ModelerView *createSampleModel(int x, int y, int w, int h, char *label) {
   return new CatModel(x, y, w, h, label);
 }
 
+int prev_individual = 1; 
+
 void setIndividual() {
-    if (VAL(INDIVIDUAL) == 1) { // normal orange cat
+    if (VAL(INDIVIDUAL) == 1 && prev_individual != 1) { // normal orange cat
         ModelerApplication::Instance()->SetControlValue(TAIL_ANGLE, 0);
         ModelerApplication::Instance()->SetControlValue(NUM_TAIL_COMPONENT, 3);
         ModelerApplication::Instance()->SetControlValue(HEAD_WIDTH, 1.3);
@@ -37,8 +39,9 @@ void setIndividual() {
         ModelerApplication::Instance()->SetControlValue(BODY_DEPTH, 1.3);
         ModelerApplication::Instance()->SetControlValue(BODY_LENGTH, 4);
         ModelerApplication::Instance()->SetControlValue(BODY_WIDTH, 2);
+        prev_individual = 1;
     }
-    else if (VAL(INDIVIDUAL) == 2) { // fat grey cat
+    else if (VAL(INDIVIDUAL) == 2 && prev_individual != 2) { // fat grey cat
         ModelerApplication::Instance()->SetControlValue(TAIL_ANGLE, 30);
         ModelerApplication::Instance()->SetControlValue(NUM_TAIL_COMPONENT, 7);
         ModelerApplication::Instance()->SetControlValue(HEAD_WIDTH, 2);
@@ -48,8 +51,9 @@ void setIndividual() {
         ModelerApplication::Instance()->SetControlValue(BODY_DEPTH, 1.3);
         ModelerApplication::Instance()->SetControlValue(BODY_LENGTH, 4);
         ModelerApplication::Instance()->SetControlValue(BODY_WIDTH, 3);
+        prev_individual = 2;
     }
-    else if (VAL(INDIVIDUAL) == 3) { // lean spotty cat
+    else if (VAL(INDIVIDUAL) == 3 && prev_individual != 3) { // lean spotty cat
         ModelerApplication::Instance()->SetControlValue(TAIL_ANGLE, 10);
         ModelerApplication::Instance()->SetControlValue(NUM_TAIL_COMPONENT, 7);
         ModelerApplication::Instance()->SetControlValue(HEAD_WIDTH, 1.8);
@@ -59,6 +63,7 @@ void setIndividual() {
         ModelerApplication::Instance()->SetControlValue(BODY_DEPTH, 1.5);
         ModelerApplication::Instance()->SetControlValue(BODY_LENGTH, 6);
         ModelerApplication::Instance()->SetControlValue(BODY_WIDTH, 2);
+        prev_individual = 3;
     }
     
 }
