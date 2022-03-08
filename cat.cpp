@@ -30,8 +30,8 @@ void draw_leg(float rad = 0.25, float rot = 0.0f) {
   glPushMatrix();
   {
     glRotated(rot, 0.0, 0.0, 0);
-    glRotated(-90, 1.0, 0.0, 0.0);
-    drawCylinder(1, rad, rad);
+    glRotated(90, 1.0, 0.0, 0.0);
+    drawCylinder(VAL(LEG_LENGTH), rad, rad);
   }
   glPopMatrix();
 }
@@ -46,12 +46,12 @@ void draw_head(float head_width, float head_height) {
     glTranslated(0, -head_height, 0);
 #define p1 0, 0 + head_height, 0
 #define p2 0.5, 0 + head_height, 0
-#define p3 0.25, 0.5 + head_height, 0
+#define p3 0.25, VAL(EAR_LENGTH) + head_height, 0
     drawTriangle(p1, p2, p3);
 
 #define p1 1.3, 0 + head_height, 0
 #define p2 1.3 - 0.5, 0 + head_height, 0
-#define p3 1.3 - 0.25, 0.5 + head_height, 0
+#define p3 1.3 - 0.25, VAL(EAR_LENGTH) + head_height, 0
     drawTriangle(p1, p2, p3);
   }
   glPopMatrix();
@@ -64,6 +64,7 @@ void draw_tailpart(float r, float scale, float length = 0.8,
     glRotated(r, 1.0, 0.0, 0);
     glScaled(scale, scale, scale);
     drawCylinder(length, radius, radius);
+    glTranslated(0, 0, length);
     if (child)
       child();
   }
@@ -81,16 +82,25 @@ void draw_tail(float r1, float r2, float r3, float component_length) {
   });
 }
 
+void draw_tail_recursive(float a, float len, float count) {
+  if (count == 1) {
+    draw_tailpart(a, 1, len);
+  } else {
+    draw_tailpart(a, 1, len,
+                  [&] { draw_tail_recursive(a * 1.3, len, count - 1); });
+  }
+}
+
 void draw_cat() {
   glPushMatrix();
   {
-    glTranslated(-0.5, 2, -2);
+    glTranslated(-VAL(BODY_WIDTH) / 2, VAL(LEG_LENGTH), -VAL(BODY_LENGTH) / 2);
 
-    drawTextureBody(2, 1.3, 4);
+    drawTextureBody(VAL(BODY_WIDTH), VAL(BODY_DEPTH), VAL(BODY_LENGTH));
     glPushMatrix();
     {
       // front_left
-      glTranslated(0.2, -1, 0.2);
+      glTranslated(0.2, 0, 0.2);
       draw_leg();
     }
     glPopMatrix();
@@ -98,15 +108,7 @@ void draw_cat() {
     glPushMatrix();
     {
       // front_right
-      glTranslated(1.8, -1, 0.2);
-      draw_leg();
-    }
-    glPopMatrix();
-
-    glPushMatrix();
-    {
-      // back_left
-      glTranslated(1.8, -1, 3.8);
+      glTranslated(VAL(BODY_WIDTH) - 0.2, 0, 0.2);
       draw_leg();
     }
     glPopMatrix();
@@ -114,7 +116,15 @@ void draw_cat() {
     glPushMatrix();
     {
       // back_right
-      glTranslated(0.2, -1, 3.8);
+      glTranslated(VAL(BODY_WIDTH) - 0.2, 0, VAL(BODY_LENGTH) - 0.2);
+      draw_leg();
+    }
+    glPopMatrix();
+
+    glPushMatrix();
+    {
+      // back_left
+      glTranslated(0.2, 0, VAL(BODY_LENGTH) - 0.2);
       draw_leg();
     }
     glPopMatrix();
@@ -122,15 +132,19 @@ void draw_cat() {
     glPushMatrix();
     {
       // head
-      glTranslated(1, 1.2, -0.1);
-      draw_head(1.3, 1.3);
+      glTranslated(VAL(BODY_WIDTH) / 2, VAL(BODY_DEPTH), -0.1);
+      draw_head(VAL(HEAD_WIDTH), VAL(HEAD_HEIGHT));
     }
     glPopMatrix();
 
     glPushMatrix();
     {
-      glTranslated(1, 0.5, 4);
-      draw_tail(10, 10, 10, 0.5);
+      glTranslated(VAL(BODY_WIDTH) / 2, VAL(BODY_DEPTH) / 2, VAL(BODY_LENGTH));
+      float a = VAL(TAIL_ANGLE);
+      int components = VAL(NUM_TAIL_COMPONENT);
+      float tail_part_length = 1.5 / components;
+
+      draw_tail_recursive(a, tail_part_length, components);
     }
     glPopMatrix();
   }
@@ -141,13 +155,15 @@ void CatModel::draw() {
   ModelerView::draw();
 
   // 1B: dramatic lighting
-  GLfloat lightIntensity[]{VAL(LIGHT_INTENSITY), VAL(LIGHT_INTENSITY), VAL(LIGHT_INTENSITY), 1 };
-  GLfloat lightPosition2[]{ VAL(LIGHT_XPOS), VAL(LIGHT_YPOS), VAL(LIGHT_ZPOS), 0 };
-  GLfloat lightDiffuse2[]{ 1,1,1,1 };
+  GLfloat lightIntensity[]{VAL(LIGHT_INTENSITY), VAL(LIGHT_INTENSITY),
+                           VAL(LIGHT_INTENSITY), 1};
+  GLfloat lightPosition2[]{VAL(LIGHT_XPOS), VAL(LIGHT_YPOS), VAL(LIGHT_ZPOS),
+                           0};
+  GLfloat lightDiffuse2[]{1, 1, 1, 1};
   glEnable(GL_LIGHT2);
   glLightfv(GL_LIGHT2, GL_POSITION, lightPosition2);
   glLightfv(GL_LIGHT2, GL_DIFFUSE, lightDiffuse2);
-  //glLightfv(GL_LIGHT1, GL_DIFFUSE, lightIntensity);
+  // glLightfv(GL_LIGHT1, GL_DIFFUSE, lightIntensity);
   glLightfv(GL_LIGHT2, GL_DIFFUSE, lightIntensity);
 
   // draw the floor
@@ -180,13 +196,24 @@ int main() {
   controls[ZPOS] = ModelerControl("Z Position", -5, 5, 0.1f, 0);
   controls[HEIGHT] = ModelerControl("Height", 1, 2.5, 0.1f, 1);
   controls[ROTATE] = ModelerControl("Rotate", -30, 30, 1, 0);
+  controls[TAIL_ANGLE] = ModelerControl("Tail Curvature", -30, 30, 1, 0);
+  controls[NUM_TAIL_COMPONENT] =
+      ModelerControl("Number of tail components", 3, 10, 1, 3);
+  controls[HEAD_WIDTH] = ModelerControl("Head Width", 1.3, 2, 0.1, 1.3);
+  controls[HEAD_HEIGHT] = ModelerControl("Head Height", 1.3, 3, 0.1, 1.3);
+  controls[LEG_LENGTH] = ModelerControl("Leg Length", 1.3, 3, 0.1, 1.3);
+  controls[EAR_LENGTH] = ModelerControl("Ear Length", 1, 2, 0.1, 1);
+
+  controls[BODY_DEPTH] = ModelerControl("Body Depth", 1.3, 3, 0.1, 1.3);
+  controls[BODY_LENGTH] = ModelerControl("Body Length", 4, 6, 0.1, 4);
+  controls[BODY_WIDTH] = ModelerControl("Body Width", 2, 4, 0.1, 2);
 
   controls[LIGHT_XPOS] = ModelerControl("Light X Position", -10, 10, 0.1f, 0);
   controls[LIGHT_YPOS] = ModelerControl("Light Y Position", 0, 10, 0.1f, 0);
   controls[LIGHT_ZPOS] = ModelerControl("Light Z Position", -10, 10, 0.1f, 0);
   controls[LIGHT_INTENSITY] = ModelerControl("Light Intensity", 0, 1, 0.1f, 0);
 
-  // initialize texture maps 
+  // initialize texture maps
   initTextureMap();
 
   ModelerApplication::Instance()->Init(&createSampleModel, controls,

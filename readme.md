@@ -15,16 +15,16 @@
 ## Basic Requirement
 
 ### Character & Control
- - [ ] Constructs a character (D)
+ - [x] Constructs a character (D)
    - [x] can be composed solely of primitive shapes (box, generalized cylinder, sphere, and triangle)
    - [x] It should use at least ten primitives and at least four levels of hierarchy
    - [x] use at least one each of the `glTranslate()`, `glRotate()` and `glScale()` calls to position these primitives in space
    - [x] must also use `glPushMatrix()` and `glPopMatrix()` to nest your matrix transformations
  - [x] Adds at least one of these as a control knob (slider, actually) for some joint/component of your model (M)
- - [ ] hobaseoking sliders to different features of your model using the functions for creating sliders provided by the skeleton (D)
- - [ ] Some simple action as you scrub a slider back and forth (D)
- - [ ] At least one of your controls must be tied to more than one joint/component
- - [ ] This knob will change the input to some function that determines how several parts of your model can move
+ - [x] hobaseoking sliders to different features of your model using the functions for creating sliders provided by the skeleton (D)
+ - [x] Some simple action as you scrub a slider back and forth (D)
+ - [x] At least one of your controls must be tied to more than one joint/component
+ - [x] This knob will change the input to some function that determines how several parts of your model can move
    - For example, in a model of a human, you might have a slider that straightens a leg by extending both the knee and hip joints.
 
 ### Camera
@@ -37,9 +37,10 @@
 
  - [x] 1W: Change the default light source to illuminate your scene more dramatically. (M)
 
- - [ ] 1W: Allow for adjustable levels of detail for your character. You will need to add a UI control for this. (D)  
+ - [ ] 1W: Allow for adjustable levels of detail for your character. You will need to add a UI control for this. (D)
 
- - [ ] 1W: Come up with another whistle and implement it.  A whistle is something that extends the use of one of the things you are already doing.  It is part of the basic model construction, but extended or cloned and modified in an interesting way.  
+ - [x] 1W: Come up with another whistle and implement it.  A whistle is something that extends the use of one of the things you are already doing.  It is part of the basic model construction, but extended or cloned and modified in an interesting way.  
+    - By adjusting the number of cylinders in the tail
 
  - [x] 1B: Use a texture map on all or part of your character. (The safest way to do this is to implement your own primitives inside your model file that do texture mapping.) (M)
     - done for boxes only 
