@@ -46,12 +46,12 @@ void draw_head(float head_width, float head_height) {
     glTranslated(0, -head_height, 0);
 #define p1 0, 0 + head_height, 0
 #define p2 0.5, 0 + head_height, 0
-#define p3 0.25, 1 + head_height, 0
+#define p3 0.25, 0.5 + head_height, 0
     drawTriangle(p1, p2, p3);
 
 #define p1 1.3, 0 + head_height, 0
 #define p2 1.3 - 0.5, 0 + head_height, 0
-#define p3 1.3 - 0.25, 1 + head_height, 0
+#define p3 1.3 - 0.25, 0.5 + head_height, 0
     drawTriangle(p1, p2, p3);
   }
   glPopMatrix();
