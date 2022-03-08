@@ -14,7 +14,7 @@ struct Triangle {
   double p1[3];
   double p2[3];
   double p3[3];
-}
+};
 
 #include "modelerglobals.h"
 
@@ -110,5 +110,7 @@ void drawTriangle(double x1, double y1, double z1, double x2, double y2,
                   double z2, double x3, double y3, double z3);
 
 void drawPolygon(const vector<Triangle> &list);
+
+void drawTorus(double, double, int, int, int);
 
 #endif

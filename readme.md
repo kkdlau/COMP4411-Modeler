@@ -58,10 +58,10 @@
  - [ ] 1B1W: The camera code has a constrained up vector -- modify the code to (1) handle camera twists (the framework is already there) and (2) to come up with an intuitive way for the user to twist the camera via mouse control.
 
 
- - [ ] 2B: Add a function in your model file for drawing a new type of primitive. The following examples will definitely garner two bells ; if you come up with your own primitive, you will be awarded one or two bells based on its coolness. 1) Extruded surface - given two curves, create a surface by sweeping one curve along the path defined by the other curve. 2) Surfaces of rotation - given a curve and a rotation axis, sweep out a surface by rotating the curve around the axis. 3) Torus.
+ - [ ] 2B: Add a function in your model file for drawing a new type of primitive. The following examples will definitely garner two bells ; if you come up with your own primitive, you will be awarded one or two bells based on its coolness. 1) Extruded surface - given two curves, create a surface by sweeping one curve along the path defined by the other curve. 2) Surfaces of rotation - given a curve and a rotation axis, sweep out a surface by rotating the curve around the axis. 3) Torus. (D)
 
 
- - [ ] 2B: (Variable) Use some sort of procedural modeling (such as an [L-system](https://en.wikipedia.org/wiki/L-system)) to generate all or part of your character. Have parameters of the procedural modeler controllable by the user via control widgets.
+ - [ ] 2B: (Variable) Use some sort of procedural modeling (such as an [L-system](https://en.wikipedia.org/wiki/L-system)) to generate all or part of your character. Have parameters of the procedural modeler controllable by the user via control widgets. (D)
 
 
  - [ ] 2B: In addition to mood cycling, have your character react differently to UI controls depending on what mood they are in.  Again, there is some weight in this item because the character reactions are supposed to make sense in a story telling way.  Think about the mood that the character is in, think about the things that you might want the character to do, and then provide a means for expressing and controlling those actions.

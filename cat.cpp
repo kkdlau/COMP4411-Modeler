@@ -181,6 +181,9 @@ void CatModel::draw() {
   setDiffuseColor(1.0, 1.0, 0.0);
   glPushMatrix();
 
+  // glTranslated(1, 1, 1);
+
+  // drawTorus(0.07, 0.15, 16, 20, 0);
   draw_cat();
 
   glPopMatrix();
