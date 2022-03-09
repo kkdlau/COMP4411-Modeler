@@ -2,10 +2,8 @@
 #include "modelerui.h"
 #include "modelerview.h"
 
-
 #include <FL/Fl_Box.H>
 #include <FL/Fl_Value_Slider.H>
-
 
 #include <cstdio>
 #include <cstdlib>
@@ -160,7 +158,7 @@ void ModelerApplication::SliderCallback(Fl_Slider *, void *) {
 }
 
 void ModelerApplication::RedrawLoop(void *) {
-  if (ModelerApplication::Instance()->m_animating)
+  if (VAL(ANIMATION))
     ModelerApplication::Instance()->m_ui->m_modelerView->redraw();
 
   // 1/50 second update is good enough
