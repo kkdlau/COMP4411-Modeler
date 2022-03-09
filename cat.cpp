@@ -165,7 +165,7 @@ void draw_tail_recursive(float a, float len, float count) {
 }
 
 struct TreeModel {
-  int turn_angle = 2;
+  int turn_angle = 20;
   float radius = 0.05;
   float component_length = 1;
   int depth = 3;
@@ -174,7 +174,7 @@ struct TreeModel {
     sys.turn_angle = turn_angle;
     sys.radius = radius;
     sys.component_length = component_length;
-    // sys.generate_sys_string(depth);
+    sys.generate_sys_string(depth);
   }
   void draw() {
     glPushMatrix();
@@ -184,79 +184,73 @@ struct TreeModel {
 };
 
 void draw_cat() {
-  glPushMatrix();
-  {
-    glTranslated(VAL(XPOS), VAL(YPOS), VAL(ZPOS));
     glPushMatrix();
     {
-      glTranslated(-VAL(BODY_WIDTH) / 2, VAL(LEG_LENGTH),
-                   -VAL(BODY_LENGTH) / 2);
+        glTranslated(VAL(XPOS), VAL(YPOS), VAL(ZPOS));
+        glPushMatrix();
+        {
+            glTranslated(-VAL(BODY_WIDTH) / 2, VAL(LEG_LENGTH),
+                -VAL(BODY_LENGTH) / 2);
 
-      drawTextureQuad(VAL(BODY_WIDTH), VAL(BODY_DEPTH), VAL(BODY_LENGTH),
-                      VAL(INDIVIDUAL));
-      glPushMatrix();
-      {
-        // front_left
-        glTranslated(0.2, 0, 0.2);
-        draw_leg();
-      }
-      glPopMatrix();
+            drawTextureQuad(VAL(BODY_WIDTH), VAL(BODY_DEPTH), VAL(BODY_LENGTH),
+                VAL(INDIVIDUAL));
+            glPushMatrix();
+            {
+                // front_left
+                glTranslated(0.2, 0, 0.2);
+                draw_leg();
+            }
+            glPopMatrix();
 
-      glPushMatrix();
-      {
-        // front_right
-        glTranslated(VAL(BODY_WIDTH) - 0.2, 0, 0.2);
-        draw_leg();
-      }
-      glPopMatrix();
+            glPushMatrix();
+            {
+                // front_right
+                glTranslated(VAL(BODY_WIDTH) - 0.2, 0, 0.2);
+                draw_leg();
+            }
+            glPopMatrix();
 
-      glPushMatrix();
-      {
-        // back_right
-        glTranslated(VAL(BODY_WIDTH) - 0.2, 0, VAL(BODY_LENGTH) - 0.2);
-        draw_leg();
-      }
-      glPopMatrix();
+            glPushMatrix();
+            {
+                // back_right
+                glTranslated(VAL(BODY_WIDTH) - 0.2, 0, VAL(BODY_LENGTH) - 0.2);
+                draw_leg();
+            }
+            glPopMatrix();
 
-      glPushMatrix();
-      {
-        // back_left
-        glTranslated(0.2, 0, VAL(BODY_LENGTH) - 0.2);
-        draw_leg();
-      }
-      glPopMatrix();
+            glPushMatrix();
+            {
+                // back_left
+                glTranslated(0.2, 0, VAL(BODY_LENGTH) - 0.2);
+                draw_leg();
+            }
+            glPopMatrix();
 
-      glPushMatrix();
-      {
-        // head
-        glTranslated(VAL(BODY_WIDTH) / 2, VAL(BODY_DEPTH), -0.1);
-        draw_head(VAL(HEAD_WIDTH), VAL(HEAD_HEIGHT));
-      }
-      glPopMatrix();
+            glPushMatrix();
+            {
+                // head
+                glTranslated(VAL(BODY_WIDTH) / 2, VAL(BODY_DEPTH), -0.1);
+                draw_head(VAL(HEAD_WIDTH), VAL(HEAD_HEIGHT));
+            }
+            glPopMatrix();
 
-      glPushMatrix();
-      {
-        glTranslated(VAL(BODY_WIDTH) / 2, VAL(BODY_DEPTH) / 2,
-                     VAL(BODY_LENGTH));
-        float a = VAL(TAIL_ANGLE);
-        run_if_animate([&] { a = animation_progress() * 40 - 10; });
-        int components = VAL(NUM_TAIL_COMPONENT);
-        float tail_part_length = 1.5 / components;
+            glPushMatrix();
+            {
+                glTranslated(VAL(BODY_WIDTH) / 2, VAL(BODY_DEPTH) / 2,
+                    VAL(BODY_LENGTH));
+                float a = VAL(TAIL_ANGLE);
+                run_if_animate([&] { a = animation_progress() * 40 - 10; });
+                int components = VAL(NUM_TAIL_COMPONENT);
+                float tail_part_length = 1.5 / components;
 
-        draw_tail_recursive(a, tail_part_length, components);
-      }
+                draw_tail_recursive(a, tail_part_length, components);
+                TreeModel{}.draw();
+            }
+            glPopMatrix();
+        }
+        glPopMatrix();
     }
     glPopMatrix();
-    // draw tree
-    glPushMatrix();
-    {
-      glTranslated(-1.5, 0, -1.5);
-      TreeModel{}.draw();
-    }
-    glPopMatrix();
-    glPopMatrix();
-  }
-  glPopMatrix();
 }
 
 void CatModel::draw() {

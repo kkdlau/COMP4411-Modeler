@@ -117,6 +117,7 @@
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <AdditionalOptions>-DENABLE_DEBUGGER %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <ResourceCompile>
       <AdditionalOptions>/NODEFAULTLIB:library  %(AdditionalOptions)</AdditionalOptions>
@@ -192,12 +193,14 @@
     <ClInclude Include="camera.h" />
     <ClInclude Include="CatModel.hpp" />
     <ClInclude Include="Header.h" />
+    <ClInclude Include="LSystem.hpp" />
     <ClInclude Include="mat.h" />
     <ClInclude Include="modelerapp.h" />
     <ClInclude Include="modelerdraw.h" />
     <ClInclude Include="modelerglobals.h" />
     <ClInclude Include="modelerui.h" />
     <ClInclude Include="modelerview.h" />
+    <ClInclude Include="TreeLSystem.hpp" />
     <ClInclude Include="vec.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -14,7 +14,7 @@ public:
   int turn_angle = 2;
   float radius = 0.5;
   float component_length = 0.7;
-  TreeLSystem() { system_string = "F+F"; }
+  TreeLSystem() { system_string = "[F]"; }
 
   void generate_sys_string(int depth) {
     for (int i = 0; i < depth; i++) {
@@ -24,12 +24,11 @@ public:
 
   string translate(const char c) {
     switch (c) {
-    case 'X':
-      return "-F[+F][---X]+F-F[++++X]-X";
     case 'F':
-      return "FF";
+        // return "F[F[-[F]][F[+[F]]]]";
+         return "F[-[F]]][[+[F]]]]";
     default:
-      return "";
+        return string{ c };
     }
   }
 
@@ -39,12 +38,18 @@ public:
 
     } break;
     case 'F': {
+        //glTranslated(0, component_length, 0);
+
+        //glTranslated(0, 0, component_length / 2);
+        //glRotated(-90, 1, 0, 0);
+        //glTranslated(-radius, -radius, -component_length / 2);
+        //drawTextureCylinder(component_length, radius, radius, VAL(INDIVIDUAL));
         glPushMatrix();
-        {
-            //glTranslated(0, -component_length, 0);
-            drawTextureCylinder(component_length, radius, radius, VAL(INDIVIDUAL));
-        } glPopMatrix();
-      glTranslated(0, component_length, 0);
+        glTranslated(-radius, -radius, 0);
+        drawTextureCylinder(component_length, radius, radius, VAL(INDIVIDUAL));
+        glTranslated(0, 0, component_length);
+
+
     } break;
     case '[': {
       glPushMatrix();
@@ -53,7 +58,7 @@ public:
       glPopMatrix();
     } break;
     case '+': {
-      glRotated(45, 0.0, 0.0, 0.0);
+      glRotated(turn_angle, 0.0, 1.0, 0.0);
     } break;
     case '-': {
       glRotated(-turn_angle, 0.0, 1.0, 0.0);

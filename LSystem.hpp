@@ -23,7 +23,6 @@ public:
 	virtual void perform(const char c) = 0;
 
 	virtual void draw() {
-		debugger("%s", system_string.c_str());
 		for (auto& c : system_string) {
 			perform(c);
 		}
