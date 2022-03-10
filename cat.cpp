@@ -9,7 +9,40 @@
 #include <functional>
 
 #include "CatModel.hpp"
+#include "TreeLSystem.hpp"
 #include "modelerglobals.h"
+
+static int32_t ticks = 0;
+static const int32_t ANIMATION_MAX_TICKS = 30 * 2; // 5 seconds
+
+static bool enable_animation() { return VAL(ANIMATION); }
+
+static int32_t next_ticks() {
+#if 0
+    return (ticks + 1) % ANIMATION_MAX_TICKS;
+#else
+  static bool forward = true;
+  ticks += forward ? 1 : -1;
+  if (ticks == ANIMATION_MAX_TICKS) {
+    ticks = ANIMATION_MAX_TICKS - 2;
+    forward = false;
+  } else if (ticks == -1) {
+    ticks = 1;
+    forward = true;
+  }
+#endif
+  // debugger("ticks: %d", ticks);
+  return ticks;
+}
+
+static float animation_progress() { return (float)ticks / ANIMATION_MAX_TICKS; }
+
+void run_if_animate(function<void()> funcs) {
+  if (enable_animation()) {
+    // perform any animation pre porcessing
+    funcs();
+  }
+}
 
 // To make a CatModel, we inherit off of ModelerView
 class CatModel : public ModelerView {
@@ -26,46 +59,43 @@ ModelerView *createSampleModel(int x, int y, int w, int h, char *label) {
   return new CatModel(x, y, w, h, label);
 }
 
-int prev_individual = 1; 
+int prev_individual = 1;
 
 void setIndividual() {
-    if (VAL(INDIVIDUAL) == 1 && prev_individual != 1) { // normal orange cat
-        ModelerApplication::Instance()->SetControlValue(TAIL_ANGLE, 0);
-        ModelerApplication::Instance()->SetControlValue(NUM_TAIL_COMPONENT, 3);
-        ModelerApplication::Instance()->SetControlValue(HEAD_WIDTH, 1.3);
-        ModelerApplication::Instance()->SetControlValue(HEAD_HEIGHT, 1.3);
-        ModelerApplication::Instance()->SetControlValue(LEG_LENGTH, 1.3);
-        ModelerApplication::Instance()->SetControlValue(EAR_LENGTH, 0.5);
-        ModelerApplication::Instance()->SetControlValue(BODY_DEPTH, 1.3);
-        ModelerApplication::Instance()->SetControlValue(BODY_LENGTH, 4);
-        ModelerApplication::Instance()->SetControlValue(BODY_WIDTH, 2);
-        prev_individual = 1;
-    }
-    else if (VAL(INDIVIDUAL) == 2 && prev_individual != 2) { // fat grey cat
-        ModelerApplication::Instance()->SetControlValue(TAIL_ANGLE, 30);
-        ModelerApplication::Instance()->SetControlValue(NUM_TAIL_COMPONENT, 7);
-        ModelerApplication::Instance()->SetControlValue(HEAD_WIDTH, 2);
-        ModelerApplication::Instance()->SetControlValue(HEAD_HEIGHT, 1.3);
-        ModelerApplication::Instance()->SetControlValue(LEG_LENGTH, 0.5);
-        ModelerApplication::Instance()->SetControlValue(EAR_LENGTH, 1);
-        ModelerApplication::Instance()->SetControlValue(BODY_DEPTH, 1.3);
-        ModelerApplication::Instance()->SetControlValue(BODY_LENGTH, 4);
-        ModelerApplication::Instance()->SetControlValue(BODY_WIDTH, 3);
-        prev_individual = 2;
-    }
-    else if (VAL(INDIVIDUAL) == 3 && prev_individual != 3) { // lean spotty cat
-        ModelerApplication::Instance()->SetControlValue(TAIL_ANGLE, 10);
-        ModelerApplication::Instance()->SetControlValue(NUM_TAIL_COMPONENT, 7);
-        ModelerApplication::Instance()->SetControlValue(HEAD_WIDTH, 1.8);
-        ModelerApplication::Instance()->SetControlValue(HEAD_HEIGHT, 2);
-        ModelerApplication::Instance()->SetControlValue(LEG_LENGTH, 2.5);
-        ModelerApplication::Instance()->SetControlValue(EAR_LENGTH, 2);
-        ModelerApplication::Instance()->SetControlValue(BODY_DEPTH, 1.5);
-        ModelerApplication::Instance()->SetControlValue(BODY_LENGTH, 6);
-        ModelerApplication::Instance()->SetControlValue(BODY_WIDTH, 2);
-        prev_individual = 3;
-    }
-    
+  if (VAL(INDIVIDUAL) == 1 && prev_individual != 1) { // normal orange cat
+    ModelerApplication::Instance()->SetControlValue(TAIL_ANGLE, 0);
+    ModelerApplication::Instance()->SetControlValue(NUM_TAIL_COMPONENT, 3);
+    ModelerApplication::Instance()->SetControlValue(HEAD_WIDTH, 1.3);
+    ModelerApplication::Instance()->SetControlValue(HEAD_HEIGHT, 1.3);
+    ModelerApplication::Instance()->SetControlValue(LEG_LENGTH, 1.3);
+    ModelerApplication::Instance()->SetControlValue(EAR_LENGTH, 0.5);
+    ModelerApplication::Instance()->SetControlValue(BODY_DEPTH, 1.3);
+    ModelerApplication::Instance()->SetControlValue(BODY_LENGTH, 4);
+    ModelerApplication::Instance()->SetControlValue(BODY_WIDTH, 2);
+    prev_individual = 1;
+  } else if (VAL(INDIVIDUAL) == 2 && prev_individual != 2) { // fat grey cat
+    ModelerApplication::Instance()->SetControlValue(TAIL_ANGLE, 30);
+    ModelerApplication::Instance()->SetControlValue(NUM_TAIL_COMPONENT, 7);
+    ModelerApplication::Instance()->SetControlValue(HEAD_WIDTH, 2);
+    ModelerApplication::Instance()->SetControlValue(HEAD_HEIGHT, 1.3);
+    ModelerApplication::Instance()->SetControlValue(LEG_LENGTH, 0.5);
+    ModelerApplication::Instance()->SetControlValue(EAR_LENGTH, 1);
+    ModelerApplication::Instance()->SetControlValue(BODY_DEPTH, 1.3);
+    ModelerApplication::Instance()->SetControlValue(BODY_LENGTH, 4);
+    ModelerApplication::Instance()->SetControlValue(BODY_WIDTH, 3);
+    prev_individual = 2;
+  } else if (VAL(INDIVIDUAL) == 3 && prev_individual != 3) { // lean spotty cat
+    ModelerApplication::Instance()->SetControlValue(TAIL_ANGLE, 10);
+    ModelerApplication::Instance()->SetControlValue(NUM_TAIL_COMPONENT, 7);
+    ModelerApplication::Instance()->SetControlValue(HEAD_WIDTH, 1.8);
+    ModelerApplication::Instance()->SetControlValue(HEAD_HEIGHT, 2);
+    ModelerApplication::Instance()->SetControlValue(LEG_LENGTH, 2.5);
+    ModelerApplication::Instance()->SetControlValue(EAR_LENGTH, 2);
+    ModelerApplication::Instance()->SetControlValue(BODY_DEPTH, 1.5);
+    ModelerApplication::Instance()->SetControlValue(BODY_LENGTH, 6);
+    ModelerApplication::Instance()->SetControlValue(BODY_WIDTH, 2);
+    prev_individual = 3;
+  }
 }
 
 void draw_leg(float rad = 0.25, float rot = 0.0f) {
@@ -86,14 +116,15 @@ void draw_head(float head_width, float head_height) {
     glTranslated(0, head_height, 0);
     glRotated(VAL(ROTATE), 1, 0, 0);
     glTranslated(0, -head_height, 0);
+    const float ear_width = head_width * 0.4;
 #define p1 0, 0 + head_height, 0
-#define p2 0.5, 0 + head_height, 0
-#define p3 0.25, VAL(EAR_LENGTH) + head_height, 0
+#define p2 ear_width, 0 + head_height, 0
+#define p3 ear_width / 2, VAL(EAR_LENGTH) + head_height, 0
     drawTriangle(p1, p2, p3);
 
 #define p1 head_width, 0 + head_height, 0
-#define p2 head_width - 0.5, 0 + head_height, 0
-#define p3 head_width - 0.25, VAL(EAR_LENGTH) + head_height, 0
+#define p2 head_width - ear_width, 0 + head_height, 0
+#define p3 head_width - ear_width / 2, VAL(EAR_LENGTH) + head_height, 0
     drawTriangle(p1, p2, p3);
   }
   glPopMatrix();
@@ -133,69 +164,102 @@ void draw_tail_recursive(float a, float len, float count) {
   }
 }
 
-void draw_cat() {
-  glPushMatrix();
-  {
-      glTranslated(VAL(XPOS), VAL(YPOS), VAL(ZPOS));
-    glTranslated(-VAL(BODY_WIDTH) / 2, VAL(LEG_LENGTH), -VAL(BODY_LENGTH) / 2);
-
-    drawTextureQuad(VAL(BODY_WIDTH), VAL(BODY_DEPTH), VAL(BODY_LENGTH), VAL(INDIVIDUAL));
+struct TreeModel {
+  int turn_angle = 20;
+  float radius = 0.05;
+  float component_length = 1;
+  int depth = 3;
+  TreeLSystem sys;
+  TreeModel() {
+    sys.turn_angle = turn_angle;
+    sys.radius = radius;
+    sys.component_length = component_length;
+    sys.generate_sys_string(depth);
+  }
+  void draw() {
     glPushMatrix();
-    {
-      // front_left
-      glTranslated(0.2, 0, 0.2);
-      draw_leg();
-    }
-    glPopMatrix();
-
-    glPushMatrix();
-    {
-      // front_right
-      glTranslated(VAL(BODY_WIDTH) - 0.2, 0, 0.2);
-      draw_leg();
-    }
-    glPopMatrix();
-
-    glPushMatrix();
-    {
-      // back_right
-      glTranslated(VAL(BODY_WIDTH) - 0.2, 0, VAL(BODY_LENGTH) - 0.2);
-      draw_leg();
-    }
-    glPopMatrix();
-
-    glPushMatrix();
-    {
-      // back_left
-      glTranslated(0.2, 0, VAL(BODY_LENGTH) - 0.2);
-      draw_leg();
-    }
-    glPopMatrix();
-
-    glPushMatrix();
-    {
-      // head
-      glTranslated(VAL(BODY_WIDTH) / 2, VAL(BODY_DEPTH), -0.1);
-      draw_head(VAL(HEAD_WIDTH), VAL(HEAD_HEIGHT));
-    }
-    glPopMatrix();
-
-    glPushMatrix();
-    {
-      glTranslated(VAL(BODY_WIDTH) / 2, VAL(BODY_DEPTH) / 2, VAL(BODY_LENGTH));
-      float a = VAL(TAIL_ANGLE);
-      int components = VAL(NUM_TAIL_COMPONENT);
-      float tail_part_length = 1.5 / components;
-
-      draw_tail_recursive(a, tail_part_length, components);
-    }
+    { sys.draw(); }
     glPopMatrix();
   }
-  glPopMatrix();
+};
+
+void draw_cat() {
+    glPushMatrix();
+    {
+        glTranslated(VAL(XPOS), VAL(YPOS), VAL(ZPOS));
+        glPushMatrix();
+        {
+            glTranslated(-VAL(BODY_WIDTH) / 2, VAL(LEG_LENGTH),
+                -VAL(BODY_LENGTH) / 2);
+
+            drawTextureQuad(VAL(BODY_WIDTH), VAL(BODY_DEPTH), VAL(BODY_LENGTH),
+                VAL(INDIVIDUAL));
+            glPushMatrix();
+            {
+                // front_left
+                glTranslated(0.2, 0, 0.2);
+                draw_leg();
+            }
+            glPopMatrix();
+
+            glPushMatrix();
+            {
+                // front_right
+                glTranslated(VAL(BODY_WIDTH) - 0.2, 0, 0.2);
+                draw_leg();
+            }
+            glPopMatrix();
+
+            glPushMatrix();
+            {
+                // back_right
+                glTranslated(VAL(BODY_WIDTH) - 0.2, 0, VAL(BODY_LENGTH) - 0.2);
+                draw_leg();
+            }
+            glPopMatrix();
+
+            glPushMatrix();
+            {
+                // back_left
+                glTranslated(0.2, 0, VAL(BODY_LENGTH) - 0.2);
+                draw_leg();
+            }
+            glPopMatrix();
+
+            glPushMatrix();
+            {
+                // head
+                glTranslated(VAL(BODY_WIDTH) / 2, VAL(BODY_DEPTH), -0.1);
+                draw_head(VAL(HEAD_WIDTH), VAL(HEAD_HEIGHT));
+            }
+            glPopMatrix();
+
+            glPushMatrix();
+            {
+                glTranslated(VAL(BODY_WIDTH) / 2, VAL(BODY_DEPTH) / 2,
+                    VAL(BODY_LENGTH));
+                float a = VAL(TAIL_ANGLE);
+                run_if_animate([&] { a = animation_progress() * 40 - 10; });
+                int components = VAL(NUM_TAIL_COMPONENT);
+                float tail_part_length = 1.5 / components;
+
+                draw_tail_recursive(a, tail_part_length, components);
+                TreeModel{}.draw();
+            }
+            glPopMatrix();
+        }
+        glPopMatrix();
+    }
+    glPopMatrix();
 }
 
 void CatModel::draw() {
   ModelerView::draw();
+  /* animation handling starts */
+  if (enable_animation()) {
+    ticks = next_ticks();
+  }
+  /* animation handling ends */
   setIndividual();
   // 1B: dramatic lighting
   GLfloat lightIntensity[]{VAL(LIGHT_INTENSITY), 0, 0, 1};
@@ -256,7 +320,9 @@ int main() {
   controls[LIGHT_XPOS] = ModelerControl("Light X Position", -10, 10, 0.1f, 0);
   controls[LIGHT_YPOS] = ModelerControl("Light Y Position", 0, 10, 0.1f, 0);
   controls[LIGHT_ZPOS] = ModelerControl("Light Z Position", -10, 10, 0.1f, 0);
-  controls[LIGHT_INTENSITY] = ModelerControl("Red Light Intensity", 0, 1, 0.1f, 0);
+  controls[LIGHT_INTENSITY] =
+      ModelerControl("Red Light Intensity", 0, 1, 0.1f, 0);
+  controls[ANIMATION] = ModelerControl("Enable Animation", 0, 1, 1, 0);
 
   controls[INDIVIDUAL] = ModelerControl("Individual Instances", 1, 3, 1, 1);
 
