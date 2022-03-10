@@ -167,11 +167,12 @@ void ModelerApplication::RedrawLoop(void *) {
       cam.setLookAt(Vec3f(VAL(XPOS), VAL(YPOS), VAL(ZPOS)));
 #define MODEL_WIDTH VAL(BODY_WIDTH)
 #define MODEL_HEIGHT VAL(LEG_LENGTH) + VAL(HEAD_HEIGHT) / 2 + VAL(EAR_LENGTH)
-#define MODEL_LEGTH VAL(BODY_LENGTH) + VAL(TAIL_LENGTH)
+#define MODEL_LENGTH VAL(BODY_LENGTH) + VAL(TAIL_LENGTH)
+      int max = (MODEL_HEIGHT > MODEL_LENGTH) ? MODEL_HEIGHT : MODEL_LENGTH;
+      cam.setDolly(-4.1* max);
   }
   if (VAL(ANIMATION) || app.m_frame_all)
       app.m_ui->m_modelerView->redraw();
-
   // 1/50 second update is good enough
   Fl::add_timeout(0.025, ModelerApplication::RedrawLoop, NULL);
 }

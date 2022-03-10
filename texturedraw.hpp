@@ -25,12 +25,12 @@ char *texImagePaths[NUM_TEXTURES]{
 #ifdef __APPLE__
     "/Users/dannylau/Desktop/COMP4411-Modeler/textures/grey.bmp",
 #else
-    "textures/fur.bmp",
+    "textures/grey.bmp",
 #endif
 #ifdef __APPLE__
     "/Users/dannylau/Desktop/COMP4411-Modeler/textures/spots.bmp",
 #else
-    "textures/fur.bmp",
+    "textures/spots.bmp",
 #endif
 };
 extern void _setupOpenGl();

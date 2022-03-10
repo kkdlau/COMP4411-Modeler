@@ -54,7 +54,7 @@
     - But probably should come back and make nicer things??? like change the body to a cylinder for the fat cat...
     - Yes for sure
 
- - [ ] 1B: Add a "Frame All" feature that would change the position of the camera such that your model is entirely visible in the model window, regardless of the pose and location of your model. (M)
+ - [ ] 1B: Add a "Frame All" feature that would change the position of the camera such that your model is entirely visible in the model window, regardless of the pose and location of your model. (D)
 
  - [ ] 1B1W: The camera code has a constrained up vector -- modify the code to (1) handle camera twists (the framework is already there) and (2) to come up with an intuitive way for the user to twist the camera via mouse control.
     - demo: hold the right mouse and twist (kActionTwist probably)

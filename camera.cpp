@@ -187,6 +187,8 @@ void Camera::lookAt(Vec3f eye, Vec3f at, Vec3f up) {
     }; // column-major order
     glMultMatrixf(rotation);
     glTranslatef(-eye[0], -eye[1], -eye[2]);
+
+    
 }
 
 #pragma warning(pop)
