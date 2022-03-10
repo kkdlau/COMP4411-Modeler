@@ -46,7 +46,7 @@
     - done for boxes only 
 
  - [ ] 1B: Build a complex shape as a set of polygonal faces, using the "triangle" primitive to render them. (D)
-
+    - ear (if you are not doing this and we still have time, I'll do it)
 
  - [x] 1B: Make an additional "animated" sequence your character can perform.  Although you can try to use a timed callback "add_idle" (see [here](https://www.fltk.org/documentation.php) for more information), an easier solution is just to increment values each time your model's draw() function is called. If you use the menu option to turn on animation, your draw() function will be executed at around 30 times per second. (D)
 
@@ -57,7 +57,7 @@
  - [ ] 1B: Add a "Frame All" feature that would change the position of the camera such that your model is entirely visible in the model window, regardless of the pose and location of your model. (M)
 
  - [ ] 1B1W: The camera code has a constrained up vector -- modify the code to (1) handle camera twists (the framework is already there) and (2) to come up with an intuitive way for the user to twist the camera via mouse control.
-
+    - demo: hold the right mouse and twist (kActionTwist probably)
 
  - [ ] 2B: Add a function in your model file for drawing a new type of primitive. The following examples will definitely garner two bells ; if you come up with your own primitive, you will be awarded one or two bells based on its coolness. 1) Extruded surface - given two curves, create a surface by sweeping one curve along the path defined by the other curve. 2) Surfaces of rotation - given a curve and a rotation axis, sweep out a surface by rotating the curve around the axis. 3) Torus. (D)
 
