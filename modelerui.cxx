@@ -222,14 +222,14 @@ void ModelerUserInterface::cb_Focus(Fl_Menu_ *o, void *v) {
   ((ModelerUserInterface *)(o->parent()->user_data()))->cb_Focus_i(o, v);
 }
 
-inline void ModelerUserInterface::cb_m_controlsAnimOnMenu_i(Fl_Menu_ *,
-                                                            void *) {
-  ModelerApplication::Instance()->m_animating =
+inline void ModelerUserInterface::cb_m_controlsFrameAllOnMenu_i(Fl_Menu_ *,
+                                                                void *) {
+  ModelerApplication::Instance()->m_frame_all =
       (m_controlsAnimOnMenu->value() == 0) ? false : true;
 }
-void ModelerUserInterface::cb_m_controlsAnimOnMenu(Fl_Menu_ *o, void *v) {
+void ModelerUserInterface::cb_m_controlsFrameAllOnMenu(Fl_Menu_ *o, void *v) {
   ((ModelerUserInterface *)(o->parent()->user_data()))
-      ->cb_m_controlsAnimOnMenu_i(o, v);
+      ->cb_m_controlsFrameAllOnMenu_i(o, v);
 }
 
 Fl_Menu_Item ModelerUserInterface::menu_m_controlsMenuBar[] = {
@@ -263,9 +263,10 @@ Fl_Menu_Item ModelerUserInterface::menu_m_controlsMenuBar[] = {
     {"Focus on Origin", 0, (Fl_Callback *)ModelerUserInterface::cb_Focus, 0, 0,
      0, 0, 14, 0},
     {0},
-    {"Animate", 0, 0, 0, 64, 0, 0, 14, 0},
-    {"Enable", 0, (Fl_Callback *)ModelerUserInterface::cb_m_controlsAnimOnMenu,
-     0, 2, 0, 0, 14, 0},
+    {"Function", 0, 0, 0, 64, 0, 0, 14, 0},
+    {"Frame All", 0,
+     (Fl_Callback *)ModelerUserInterface::cb_m_controlsFrameAllOnMenu, 0, 2, 0,
+     0, 14, 0},
     {0},
     {0}};
 // 11-01-2001: fixed bug that caused animation problems
