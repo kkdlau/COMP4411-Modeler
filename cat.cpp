@@ -11,6 +11,7 @@
 #include "CatModel.hpp"
 #include "TreeLSystem.hpp"
 #include "modelerglobals.h"
+#include <math.h>       /* log */
 
 static int32_t ticks = 0;
 static const int32_t ANIMATION_MAX_TICKS = 30 * 2; // 5 seconds
@@ -108,6 +109,40 @@ void draw_leg(float rad = 0.25, float rot = 0.0f) {
   glPopMatrix();
 }
 
+struct CatEar {
+    float length = 1;
+    float width = 2;
+    int segment = 4;
+    void draw() {
+        float dw = width / 4;
+
+#define endpoint {width / 2, 0, 1}
+        vector<Triangle> triangle{};
+        for (int i = 0; i < segment / 2; i++) {
+            float x1 = i * dw;
+            float x2 = (i + 1) * dw;
+            triangle.push_back({
+                endpoint,
+                {x1, interpolate(x1), 1},
+                {x2, interpolate(x2), 1}
+                });
+            triangle.push_back({
+                endpoint,
+                {width - x1, interpolate(x1), 1},
+                {width - x2, interpolate(x2), 1}
+                });
+        }
+
+        drawPolygon(triangle);
+    }
+
+    float interpolate(float x) {
+        x = x / width * 15;
+        float y = log10((double)x + 1) * 10;
+        return min(y, 12) / 12;
+    }
+};
+
 void draw_head(float head_width, float head_height) {
   glPushMatrix();
   {
@@ -126,6 +161,7 @@ void draw_head(float head_width, float head_height) {
 #define p2 head_width - ear_width, 0 + head_height, 0
 #define p3 head_width - ear_width / 2, VAL(EAR_LENGTH) + head_height, 0
     drawTriangle(p1, p2, p3);
+    // CatEar{}.draw();
   }
   glPopMatrix();
 }
@@ -241,7 +277,7 @@ void draw_cat() {
                 float a = VAL(TAIL_ANGLE);
                 run_if_animate([&] { a = animation_progress() * 40 - 10; });
                 int components = VAL(NUM_TAIL_COMPONENT);
-                float tail_part_length = 1.5 / components;
+                float tail_part_length = VAL(TAIL_LENGTH) / components;
 
                 draw_tail_recursive(a, tail_part_length, components);
                 TreeModel{}.draw();
@@ -306,6 +342,7 @@ int main() {
   controls[HEIGHT] = ModelerControl("Height", 1, 2.5, 0.1f, 1);
   controls[ROTATE] = ModelerControl("Rotate", -60, 60, 1, 0);
   controls[TAIL_ANGLE] = ModelerControl("Tail Curvature", -30, 30, 1, 0);
+  controls[TAIL_LENGTH] = ModelerControl("Tail Length", 1.5, 3, 0.1, 1.5);
   controls[NUM_TAIL_COMPONENT] =
       ModelerControl("Number of tail components", 3, 10, 1, 3);
   controls[HEAD_WIDTH] = ModelerControl("Head Width", 1.3, 2, 0.1, 1.3);

@@ -8,6 +8,8 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+//
+#include "camera.h"
 
 // CLASS ModelerControl METHODS
 
@@ -54,7 +56,7 @@ void ModelerApplication::Init(ModelerViewCreator_f createView,
                               unsigned numControls) {
   int i;
 
-  m_animating = false;
+  m_frame_all = false;
   m_numControls = numControls;
 
   // ********************************************************
@@ -158,8 +160,17 @@ void ModelerApplication::SliderCallback(Fl_Slider *, void *) {
 }
 
 void ModelerApplication::RedrawLoop(void *) {
-  if (VAL(ANIMATION))
-    ModelerApplication::Instance()->m_ui->m_modelerView->redraw();
+    auto& app = *ModelerApplication::Instance();
+  if (app.m_frame_all) {
+      auto& view = *app.m_ui->m_modelerView;
+      auto& cam = *view.m_camera;
+      cam.setLookAt(Vec3f(VAL(XPOS), VAL(YPOS), VAL(ZPOS)));
+#define MODEL_WIDTH VAL(BODY_WIDTH)
+#define MODEL_HEIGHT VAL(LEG_LENGTH) + VAL(HEAD_HEIGHT) / 2 + VAL(EAR_LENGTH)
+#define MODEL_LEGTH VAL(BODY_LENGTH) + VAL(TAIL_LENGTH)
+  }
+  if (VAL(ANIMATION) || app.m_frame_all)
+      app.m_ui->m_modelerView->redraw();
 
   // 1/50 second update is good enough
   Fl::add_timeout(0.025, ModelerApplication::RedrawLoop, NULL);

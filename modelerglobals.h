@@ -28,6 +28,7 @@ enum SampleModelControls {
   LEG_LENGTH,
   BODY_WIDTH,
   BODY_LENGTH,
+  TAIL_LENGTH,
   BODY_DEPTH,
   EAR_LENGTH,
   INDIVIDUAL,
