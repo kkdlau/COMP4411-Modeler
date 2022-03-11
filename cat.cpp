@@ -112,28 +112,32 @@ void draw_leg(float rad = 0.25, float rot = 0.0f) {
 struct CatEar {
     float length = 1;
     float width = 2;
+    float depth = 1;
     int segment = 4;
     void draw() {
-        float dw = width / 4;
+        glPushMatrix();
+        glTranslated(-width / 2, 0, 0);
+        float dw = width / segment;
 
-#define endpoint {width / 2, 0, 1}
+#define endpoint {width / 2, 0, depth}
         vector<Triangle> triangle{};
         for (int i = 0; i < segment / 2; i++) {
             float x1 = i * dw;
             float x2 = (i + 1) * dw;
             triangle.push_back({
+                {x1, interpolate(x1), 0},
                 endpoint,
-                {x1, interpolate(x1), 1},
-                {x2, interpolate(x2), 1}
+                {x2, interpolate(x2), 0}
                 });
             triangle.push_back({
                 endpoint,
-                {width - x1, interpolate(x1), 1},
-                {width - x2, interpolate(x2), 1}
+                {width - x1, interpolate(x1), 0},
+                {width - x2, interpolate(x2), 0}
                 });
         }
 
         drawPolygon(triangle);
+        glPopMatrix();
     }
 
     float interpolate(float x) {
@@ -152,16 +156,17 @@ void draw_head(float head_width, float head_height) {
     glRotated(VAL(ROTATE), 1, 0, 0);
     glTranslated(0, -head_height, 0);
     const float ear_width = head_width * 0.4;
-#define p1 0, 0 + head_height, 0
-#define p2 ear_width, 0 + head_height, 0
-#define p3 ear_width / 2, VAL(EAR_LENGTH) + head_height, 0
-    drawTriangle(p1, p2, p3);
+    CatEar ear = {VAL(EAR_LENGTH), ear_width, head_height * 0.3, VAL(EAR_TRI_SEG)};
 
-#define p1 head_width, 0 + head_height, 0
-#define p2 head_width - ear_width, 0 + head_height, 0
-#define p3 head_width - ear_width / 2, VAL(EAR_LENGTH) + head_height, 0
-    drawTriangle(p1, p2, p3);
-    // CatEar{}.draw();
+    glPushMatrix();
+    glTranslated(ear_width / 2, head_height, 0);
+    ear.draw();
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslated(head_width - ear_width / 2, head_height, 0);
+    ear.draw();
+    glPopMatrix();
   }
   glPopMatrix();
 }
@@ -340,7 +345,7 @@ int main() {
   controls[YPOS] = ModelerControl("Y Position", 0, 5, 0.1f, 0);
   controls[ZPOS] = ModelerControl("Z Position", -5, 5, 0.1f, 0);
   controls[HEIGHT] = ModelerControl("Height", 1, 2.5, 0.1f, 1);
-  controls[ROTATE] = ModelerControl("Rotate", -60, 60, 1, 0);
+  controls[ROTATE] = ModelerControl("Rotate", 0, 30, 1, 0);
   controls[TAIL_ANGLE] = ModelerControl("Tail Curvature", -30, 30, 1, 0);
   controls[TAIL_LENGTH] = ModelerControl("Tail Length", 1.5, 3, 0.1, 1.5);
   controls[NUM_TAIL_COMPONENT] =
@@ -349,6 +354,7 @@ int main() {
   controls[HEAD_HEIGHT] = ModelerControl("Head Height", 1.3, 3, 0.1, 1.3);
   controls[LEG_LENGTH] = ModelerControl("Leg Length", 0.5, 3, 0.1, 1.3);
   controls[EAR_LENGTH] = ModelerControl("Ear Length", 0.5, 2, 0.1, 0.5);
+  controls[EAR_TRI_SEG] = ModelerControl("Number of Triangle in ear", 4, 8, 2, 4);
 
   controls[BODY_DEPTH] = ModelerControl("Body Depth", 1.3, 3, 0.1, 1.3);
   controls[BODY_LENGTH] = ModelerControl("Body Length", 4, 6, 0.1, 4);

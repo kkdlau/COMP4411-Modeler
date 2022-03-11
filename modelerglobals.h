@@ -33,6 +33,7 @@ enum SampleModelControls {
   EAR_LENGTH,
   INDIVIDUAL,
   ANIMATION,
+  EAR_TRI_SEG,
   NUMCONTROLS
 };
 
