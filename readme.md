@@ -55,11 +55,11 @@
 
  - [x] 1B: Add a "Frame All" feature that would change the position of the camera such that your model is entirely visible in the model window, regardless of the pose and location of your model. (D)
 
- - [ ] 1B1W: The camera code has a constrained up vector -- modify the code to (1) handle camera twists (the framework is already there) and (2) to come up with an intuitive way for the user to twist the camera via mouse control.
-    - demo: hold the right mouse and twist (kActionTwist probably)
+ - [x] 1B1W: The camera code has a constrained up vector -- modify the code to (1) handle camera twists (the framework is already there) and (2) to come up with an intuitive way for the user to twist the camera via mouse control.
+    - to use: hold the ALT button while using the right mouse button
 
  - [x] 2B: Add a function in your model file for drawing a new type of primitive. The following examples will definitely garner two bells ; if you come up with your own primitive, you will be awarded one or two bells based on its coolness. 1) Extruded surface - given two curves, create a surface by sweeping one curve along the path defined by the other curve. 2) Surfaces of rotation - given a curve and a rotation axis, sweep out a surface by rotating the curve around the axis. 3) Torus. (D)
-
+    - Which primitive is this?
 
  - [x] 2B: (Variable) Use some sort of procedural modeling (such as an [L-system](https://en.wikipedia.org/wiki/L-system)) to generate all or part of your character. Have parameters of the procedural modeler controllable by the user via control widgets. (D)
 

@@ -15,6 +15,7 @@ const float kMouseRotationSensitivity = 1.0f / 90.0f;
 const float kMouseTranslationXSensitivity = 0.03f;
 const float kMouseTranslationYSensitivity = 0.03f;
 const float kMouseZoomSensitivity = 0.08f;
+const float kMouseTwistSensitivity = 0.08f;
 
 void MakeDiagonal(Mat4f &m, float k) {
   register int i, j;
@@ -88,11 +89,13 @@ void Camera::calculateViewingTransformParameters() {
   mPosition =
       originXform * (azimXform * (elevXform * (dollyXform * mPosition)));
 
+  float twist = getTwist(); 
+
   if (fmod((double)mElevation, 2.0 * M_PI) < 3 * M_PI / 2 &&
       fmod((double)mElevation, 2.0 * M_PI) > M_PI / 2)
-    mUpVector = Vec3f(0, -1, 0);
+    mUpVector = Vec3f(sin(twist), -cos(twist), 0);
   else
-    mUpVector = Vec3f(0, 1, 0);
+    mUpVector = Vec3f(sin(twist), cos(twist), 0);
 
   mDirtyTransform = false;
 }
@@ -149,8 +152,11 @@ void Camera::dragMouse(int x, int y) {
     setDolly(getDolly() + dDolly);
     break;
   }
-  case kActionTwist:
-    // Not implemented
+  case kActionTwist: {
+      float dTwist = -mouseDelta[1] * kMouseTwistSensitivity;
+      setTwist(getTwist() + dTwist);
+      break;
+  }
   default:
     break;
   }
@@ -186,9 +192,7 @@ void Camera::lookAt(Vec3f eye, Vec3f at, Vec3f up) {
                     0, 0, 0, 1
     }; // column-major order
     glMultMatrixf(rotation);
-    glTranslatef(-eye[0], -eye[1], -eye[2]);
-
-    
+    glTranslatef(-eye[0], -eye[1], -eye[2]); 
 }
 
 #pragma warning(pop)
