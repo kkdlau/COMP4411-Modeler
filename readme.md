@@ -55,7 +55,7 @@
 
  - [x] 1B: Add a "Frame All" feature that would change the position of the camera such that your model is entirely visible in the model window, regardless of the pose and location of your model. (D)
 
- - [x] 1B1W: The camera code has a constrained up vector -- modify the code to (1) handle camera twists (the framework is already there) and (2) to come up with an intuitive way for the user to twist the camera via mouse control.
+ - [x] 1B1W: The camera code has a constrained up vector -- modify the code to (1) handle camera twists (the framework is already there) and (2) to come up with an intuitive way for the user to twist the camera via mouse control. (M)
     - to use: hold the ALT button while using the right mouse button
 
  - [x] 2B: Add a function in your model file for drawing a new type of primitive. The following examples will definitely garner two bells ; if you come up with your own primitive, you will be awarded one or two bells based on its coolness. 1) Extruded surface - given two curves, create a surface by sweeping one curve along the path defined by the other curve. 2) Surfaces of rotation - given a curve and a rotation axis, sweep out a surface by rotating the curve around the axis. 3) Torus. (D)
@@ -64,10 +64,10 @@
  - [x] 2B: (Variable) Use some sort of procedural modeling (such as an [L-system](https://en.wikipedia.org/wiki/L-system)) to generate all or part of your character. Have parameters of the procedural modeler controllable by the user via control widgets. (D)
 
 
- - [ ] 2B: In addition to mood cycling, have your character react differently to UI controls depending on what mood they are in.  Again, there is some weight in this item because the character reactions are supposed to make sense in a story telling way.  Think about the mood that the character is in, think about the things that you might want the character to do, and then provide a means for expressing and controlling those actions.
+ - [x] 2B: In addition to mood cycling, have your character react differently to UI controls depending on what mood they are in.  Again, there is some weight in this item because the character reactions are supposed to make sense in a story telling way.  Think about the mood that the character is in, think about the things that you might want the character to do, and then provide a means for expressing and controlling those actions. (M)
+    - But should think of more reactions to UI controls based on mood. For now: speed of animation, lighting
 
-
- - [ ] 4B: One difficulty with hierarchical modeling using primitives is the difficulty of building "organic" shapes. It's difficult, for instance, to make a convincing looking human arm because you can't really show the bending of the skin and bulging of the muscle using cylinders and spheres. There has, however, been success in building organic shapes using [metaballs](https://en.wikipedia.org/wiki/Metaballs). Implement your hierarchical model and "skin" it with metaballs. Hint: look up "marching cubes" and "marching tetrahedra" --these are two commonly used algorithms for volume rendering. Here is a [demo application](https://course.cse.ust.hk/comp4411/Password_Only/projects/modeler/metaballs_demo.zip) by Joe Hall and Eugene Hsu that shows metaballs in action.
+ - [ ] 4B: One difficulty with hierarchical modeling using primitives is the difficulty of building "organic" shapes. It's difficult, for instance, to make a convincing looking human arm because you can't really show the bending of the skin and bulging of the muscle using cylinders and spheres. There has, however, been success in building organic shapes using [metaballs](https://en.wikipedia.org/wiki/Metaballs). Implement your hierarchical model and "skin" it with metaballs. Hint: look up "marching cubes" and "marching tetrahedra" --these are two commonly used algorithms for volume rendering. Here is a [demo application](https://course.cse.ust.hk/comp4411/Password_Only/projects/modeler/metaballs_demo.zip) by Joe Hall and Eugene Hsu that shows metaballs in action. (M)
 
 
  - [ ] 8B: You might notice after building your model that it's difficult to have very "goal-oriented" motion. Given a model of a human, for instance, if the goal is to move the hand to a certain coordinate, we might have to change the shoulder angle, elbow angle -- maybe even the angle of the knees if the feet are constrained to one position. Implement a method, given a set of position constraints like:

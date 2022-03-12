@@ -17,17 +17,19 @@ static int32_t ticks = 0;
 static const int32_t ANIMATION_MAX_TICKS = 30 * 2; // 5 seconds
 
 static bool enable_animation() { return VAL(ANIMATION); }
+static int prev_individual = 1;
+static int prev_mood = 2;
 
 static int32_t next_ticks() {
 #if 0
     return (ticks + 1) % ANIMATION_MAX_TICKS;
 #else
   static bool forward = true;
-  ticks += forward ? 1 : -1;
-  if (ticks == ANIMATION_MAX_TICKS) {
+  ticks += forward ? 1.5 * int(VAL(MOOD)) : -1.5 * int(VAL(MOOD));
+  if (ticks >= ANIMATION_MAX_TICKS) {
     ticks = ANIMATION_MAX_TICKS - 2;
     forward = false;
-  } else if (ticks == -1) {
+  } else if (ticks < 0) {
     ticks = 1;
     forward = true;
   }
@@ -60,11 +62,10 @@ ModelerView *createSampleModel(int x, int y, int w, int h, char *label) {
   return new CatModel(x, y, w, h, label);
 }
 
-int prev_individual = 1;
+
 
 void setIndividual() {
   if (VAL(INDIVIDUAL) == 1 && prev_individual != 1) { // normal orange cat
-    ModelerApplication::Instance()->SetControlValue(TAIL_ANGLE, 0);
     ModelerApplication::Instance()->SetControlValue(NUM_TAIL_COMPONENT, 3);
     ModelerApplication::Instance()->SetControlValue(HEAD_WIDTH, 1.3);
     ModelerApplication::Instance()->SetControlValue(HEAD_HEIGHT, 1.3);
@@ -75,7 +76,6 @@ void setIndividual() {
     ModelerApplication::Instance()->SetControlValue(BODY_WIDTH, 2);
     prev_individual = 1;
   } else if (VAL(INDIVIDUAL) == 2 && prev_individual != 2) { // fat grey cat
-    ModelerApplication::Instance()->SetControlValue(TAIL_ANGLE, 30);
     ModelerApplication::Instance()->SetControlValue(NUM_TAIL_COMPONENT, 7);
     ModelerApplication::Instance()->SetControlValue(HEAD_WIDTH, 2);
     ModelerApplication::Instance()->SetControlValue(HEAD_HEIGHT, 1.3);
@@ -86,7 +86,6 @@ void setIndividual() {
     ModelerApplication::Instance()->SetControlValue(BODY_WIDTH, 3);
     prev_individual = 2;
   } else if (VAL(INDIVIDUAL) == 3 && prev_individual != 3) { // lean spotty cat
-    ModelerApplication::Instance()->SetControlValue(TAIL_ANGLE, 10);
     ModelerApplication::Instance()->SetControlValue(NUM_TAIL_COMPONENT, 7);
     ModelerApplication::Instance()->SetControlValue(HEAD_WIDTH, 1.8);
     ModelerApplication::Instance()->SetControlValue(HEAD_HEIGHT, 2);
@@ -97,6 +96,51 @@ void setIndividual() {
     ModelerApplication::Instance()->SetControlValue(BODY_WIDTH, 2);
     prev_individual = 3;
   }
+}
+
+void setMood() {
+    if (VAL(MOOD) == 1 && prev_mood != 1) {
+        ModelerApplication::Instance()->SetControlValue(TAIL_ANGLE, 30);
+        ModelerApplication::Instance()->SetControlValue(ROTATE, 30);
+        prev_mood = 1;
+    }
+    else if (VAL(MOOD) == 2 && prev_mood != 2) {
+        ModelerApplication::Instance()->SetControlValue(TAIL_ANGLE, -5);
+        ModelerApplication::Instance()->SetControlValue(ROTATE, 5);
+        prev_mood = 2;
+    }
+    else if (VAL(MOOD) == 3 && prev_mood != 3) {
+        ModelerApplication::Instance()->SetControlValue(TAIL_ANGLE, -30);
+        ModelerApplication::Instance()->SetControlValue(ROTATE, 0);
+        prev_mood = 3;
+    }
+    
+}
+
+void setLighting() {
+    // 1B: dramatic lighting
+    GLfloat lightIntensity[4]{ 0, 0, 0, 1 };
+    switch (int(VAL(MOOD))) {
+    case 1: {
+        lightIntensity[0] = 0; lightIntensity[1] = 0; lightIntensity[2] = VAL(LIGHT_INTENSITY);
+        break;
+    }
+    case 2: {
+        lightIntensity[0] = 0; lightIntensity[1] = VAL(LIGHT_INTENSITY); lightIntensity[2] = 0;
+        break;
+    }
+    case 3: {
+        lightIntensity[0] = VAL(LIGHT_INTENSITY); lightIntensity[1] = 0; lightIntensity[2] = 0;
+        break;
+    }
+    }
+    GLfloat lightPosition2[]{ VAL(LIGHT_XPOS), VAL(LIGHT_YPOS), VAL(LIGHT_ZPOS), 0 };
+    GLfloat lightDiffuse2[]{ 1, 1, 1, 1 };
+    glEnable(GL_LIGHT2);
+    glLightfv(GL_LIGHT2, GL_POSITION, lightPosition2);
+    glLightfv(GL_LIGHT2, GL_DIFFUSE, lightDiffuse2);
+    // glLightfv(GL_LIGHT1, GL_DIFFUSE, lightIntensity);
+    glLightfv(GL_LIGHT2, GL_DIFFUSE, lightIntensity);
 }
 
 void draw_leg(float rad = 0.25, float rot = 0.0f) {
@@ -147,26 +191,101 @@ struct CatEar {
     }
 };
 
+struct CatEye {
+    int mood = 0; 
+    float pptn_width = 0;
+    float pptn_height = 0;
+    float width = (mood == 2) ? pptn_width : pptn_width * 1.2;
+    float height = (mood == 2) ? pptn_height : pptn_height * 1.5;
+    void draw() {
+        switch (mood) {
+        case 1: { // sad
+            drawTriangle(-width / 2, 0, 0, 0, -height / 4, 0, 0, -height / 2, 0);
+            drawTriangle(width / 2, 0, 0, 0, -height / 4, 0, 0, -height / 2, 0);
+            break;
+        }
+        case 2: { // neutral
+            drawTriangle(-width / 2, 0, 0, 0, height / 2, 0, 0, -height / 2, 0);
+            drawTriangle(width / 2, 0, 0, 0, height / 2, 0, 0, -height / 2, 0);
+            break;
+        }
+        case 3: { // happy
+            drawTriangle(-width / 2, 0, 0, 0, height / 4, 0, 0, height / 2, 0);
+            drawTriangle(width / 2, 0, 0, 0, height / 4, 0, 0, height / 2, 0);
+            break;
+        }
+        }
+    }
+};
+
+struct CatMouth {
+    int mood = 0;
+    float width = 0;
+    float height = 0;
+    void draw() {
+        switch (mood) {
+        case 1: {
+            drawTriangle(-width / 2, 0, 0, width / 2, 0, 0, width / 2, -height / 5, 0);
+            drawTriangle(width / 2, -height / 5, 0, -width / 2, -height / 5, 0, -width / 2, 0, 0);
+            break;
+        }
+        case 2: {
+            drawTriangle(-width / 2, 0, 0, width / 2, 0, 0, 0, -height / 3, 0);
+            break;
+        }
+        case 3: {
+            drawTriangle(-width / 2, height / 2, 0, width / 2, height / 2, 0, 0, -height / 2, 0);
+        }
+        }
+    }
+};
 void draw_head(float head_width, float head_height) {
   glPushMatrix();
   {
     glTranslated(-head_width / 2, -head_height / 2, -0.8 / 2);
     drawBox(head_width, head_height, 0.8);
+    // draw ears
     glTranslated(0, head_height, 0);
-    glRotated(VAL(ROTATE), 1, 0, 0);
     glTranslated(0, -head_height, 0);
     const float ear_width = head_width * 0.4;
     CatEar ear = {VAL(EAR_LENGTH), ear_width, head_height * 0.3, VAL(EAR_TRI_SEG)};
 
     glPushMatrix();
     glTranslated(ear_width / 2, head_height, 0);
+    glRotated(VAL(ROTATE), 1, 0, 0);
     ear.draw();
+    glPopMatrix();
+    
+    glPushMatrix();
+    glTranslated(head_width - ear_width / 2, head_height, 0);
+    glRotated(VAL(ROTATE), 1, 0, 0);
+    ear.draw();
+    glPopMatrix();
+    // draw eyes
+    setDiffuseColor(0.0, 0.0, 0.0);
+    float eye_width = head_width * 0.2;
+    float eye_height = head_height * 0.2;
+    CatEye eye = { VAL(MOOD), eye_width, eye_height};
+    glPushMatrix();
+    glTranslated(0.3 * head_width, 0.7 * head_height, -0.01); // left eye
+    eye.draw();
     glPopMatrix();
 
     glPushMatrix();
-    glTranslated(head_width - ear_width / 2, head_height, 0);
-    ear.draw();
+    glTranslated(0.7 * head_width, 0.7 * head_height, -0.01); // right eye
+    eye.draw();
     glPopMatrix();
+    // draw mouth
+    float mouth_width = head_width * 0.4;
+    float mouth_height = head_height * 0.2;
+    CatMouth mouth = { VAL(MOOD), mouth_width, mouth_height };
+    glPushMatrix();
+    glTranslated(head_width / 2, 0.3 * head_height, -0.01);
+    mouth.draw();
+    glPopMatrix();
+
+    setDiffuseColor(1.0, 1.0, 1.0);
+    
   }
   glPopMatrix();
 }
@@ -302,16 +421,8 @@ void CatModel::draw() {
   }
   /* animation handling ends */
   setIndividual();
-  // 1B: dramatic lighting
-  GLfloat lightIntensity[]{VAL(LIGHT_INTENSITY), 0, 0, 1};
-  GLfloat lightPosition2[]{VAL(LIGHT_XPOS), VAL(LIGHT_YPOS), VAL(LIGHT_ZPOS),
-                           0};
-  GLfloat lightDiffuse2[]{1, 1, 1, 1};
-  glEnable(GL_LIGHT2);
-  glLightfv(GL_LIGHT2, GL_POSITION, lightPosition2);
-  glLightfv(GL_LIGHT2, GL_DIFFUSE, lightDiffuse2);
-  // glLightfv(GL_LIGHT1, GL_DIFFUSE, lightIntensity);
-  glLightfv(GL_LIGHT2, GL_DIFFUSE, lightIntensity);
+  setMood(); // mood cycling 
+  setLighting();
 
   // draw the floor
   setAmbientColor(.1f, .1f, .1f);
@@ -347,7 +458,7 @@ int main() {
   controls[HEIGHT] = ModelerControl("Height", 1, 2.5, 0.1f, 1);
   controls[ROTATE] = ModelerControl("Rotate", 0, 30, 1, 0);
   controls[TAIL_ANGLE] = ModelerControl("Tail Curvature", -30, 30, 1, 0);
-  controls[TAIL_LENGTH] = ModelerControl("Tail Length", 1.5, 3, 0.1, 1.5);
+  controls[TAIL_LENGTH] = ModelerControl("Tail Length", 1.5, 3, 0.1, 2.5);
   controls[NUM_TAIL_COMPONENT] =
       ModelerControl("Number of tail components", 3, 10, 1, 3);
   controls[HEAD_WIDTH] = ModelerControl("Head Width", 1.3, 2, 0.1, 1.3);
@@ -364,10 +475,11 @@ int main() {
   controls[LIGHT_YPOS] = ModelerControl("Light Y Position", 0, 10, 0.1f, 0);
   controls[LIGHT_ZPOS] = ModelerControl("Light Z Position", -10, 10, 0.1f, 0);
   controls[LIGHT_INTENSITY] =
-      ModelerControl("Red Light Intensity", 0, 1, 0.1f, 0);
+      ModelerControl("Light Intensity", 0, 1, 0.1f, 0);
   controls[ANIMATION] = ModelerControl("Enable Animation", 0, 1, 1, 0);
 
   controls[INDIVIDUAL] = ModelerControl("Individual Instances", 1, 3, 1, 1);
+  controls[MOOD] = ModelerControl("Mood Cycling", 1, 3, 1, 2);
 
   // initialize texture maps
   initTextureMap();
