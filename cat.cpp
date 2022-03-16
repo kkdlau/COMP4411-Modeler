@@ -245,12 +245,6 @@ struct CatMouth {
 void draw_head(float head_width, float head_height) {
   glPushMatrix();
   {    
-    if (VAL(ORGANIC_HEAD) == 1) {
-        glTranslated(-1.5, -1.5, -1.5);
-        OrganicHead head{ 3, 3, 3, 0.1, 0.0, (OrganicHead::OrganicShapes)1};
-        head.draw();
-    }
-    else {
         glTranslated(-head_width / 2, -head_height / 2, -0.8 / 2);
         drawBox(head_width, head_height, 0.8);
 
@@ -265,13 +259,11 @@ void draw_head(float head_width, float head_height) {
 
         glPushMatrix();
         glTranslated(ear_width / 2, head_height, 0);
-        if (VAL(ORGANIC_HEAD) == 1) glTranslated(0.2 * 0.5, 0, 0);
         glRotated(VAL(ROTATE), 1, 0, 0);
         ear.draw();
         glPopMatrix();
 
         glPushMatrix();
-        if (VAL(ORGANIC_HEAD) == 1) glTranslated(0.2 * 0.5, 0, 0);
         glTranslated((double)head_width - ear_width / 2, head_height, 0);
         glRotated(VAL(ROTATE), 1, 0, 0);
         ear.draw();
@@ -298,7 +290,6 @@ void draw_head(float head_width, float head_height) {
         glTranslated(head_width / 2, 0.3 * head_height, -0.01);
         mouth.draw();
         glPopMatrix();
-    }
     
     setDiffuseColor(1.0, 1.0, 1.0);
   }
@@ -431,6 +422,72 @@ void draw_cat() {
     glPopMatrix();
 }
 
+void draw_organic() {
+    glPushMatrix();
+    {
+        glTranslated(VAL(XPOS), VAL(YPOS), VAL(ZPOS));
+        glPushMatrix();
+        {
+            glTranslated(-VAL(BODY_WIDTH) / 2, VAL(LEG_LENGTH), -VAL(BODY_LENGTH) / 2);
+
+            // TODO: draw body
+
+            // draw legs
+            glPushMatrix();
+            {
+                // front_left
+                glTranslated(0.2, 0, 0.2);
+                draw_leg();
+            }
+            glPopMatrix();
+
+            glPushMatrix();
+            {
+                // front_right
+                glTranslated(VAL(BODY_WIDTH) - 0.2, 0, 0.2);
+                draw_leg();
+            }
+            glPopMatrix();
+
+            glPushMatrix();
+            {
+                // back_right
+                glTranslated(VAL(BODY_WIDTH) - 0.2, 0, VAL(BODY_LENGTH) - 0.2);
+                draw_leg();
+            }
+            glPopMatrix();
+
+            glPushMatrix();
+            {
+                // back_left
+                glTranslated(0.2, 0, VAL(BODY_LENGTH) - 0.2);
+                draw_leg();
+            }
+            glPopMatrix();
+
+            // TODO: draw head
+            glPushMatrix();
+            {
+                // head
+                glTranslated(VAL(BODY_WIDTH) / 2, VAL(BODY_DEPTH), -0.1);
+                
+            }
+            glPopMatrix();
+            
+            // TODO: draw tail 
+            glPushMatrix();
+            {
+                glTranslated(VAL(BODY_WIDTH) / 2, VAL(BODY_DEPTH) / 2,
+                    VAL(BODY_LENGTH));
+                
+            }
+            glPopMatrix();
+        }
+        glPopMatrix();
+    }
+    glPopMatrix();
+}
+
 void CatModel::draw() {
   ModelerView::draw();
   /* animation handling starts */
@@ -457,7 +514,8 @@ void CatModel::draw() {
   setDiffuseColor(1.0, 1.0, 1.0);
   glPushMatrix();
 
-  // draw_cat();
+  // if (VAL(ORGANIC) != 1) draw_cat();
+  // else draw_organic();
 
   Vec3f start_point{ 0,0,0 };
 
@@ -490,7 +548,6 @@ int main() {
   controls[XPOS] = ModelerControl("X Position", -5, 5, 0.1f, 0);
   controls[YPOS] = ModelerControl("Y Position", 0, 5, 0.1f, 0);
   controls[ZPOS] = ModelerControl("Z Position", -5, 5, 0.1f, 0);
-  controls[HEIGHT] = ModelerControl("Height", 1, 2.5, 0.1f, 1);
   controls[ROTATE] = ModelerControl("Rotate", 0, 30, 1, 0);
   controls[TAIL_ANGLE] = ModelerControl("Tail Curvature", -30, 30, 1, 0);
   controls[TAIL_LENGTH] = ModelerControl("Tail Length", 1.5, 3, 0.1, 2.5);
@@ -515,7 +572,7 @@ int main() {
 
   controls[INDIVIDUAL] = ModelerControl("Individual Instances", 1, 3, 1, 1);
   controls[MOOD] = ModelerControl("Mood Cycling", 1, 3, 1, 2);
-  controls[ORGANIC_HEAD] = ModelerControl("Enable Organic Head", 0, 1, 1, 0);
+  controls[ORGANIC] = ModelerControl("Enable Organic Model", 0, 1, 1, 0);
   controls[L_SYS_DEPTH] = ModelerControl("L System Depth", 1, 3, 1, 1);
   controls[TAR_X] = ModelerControl("target X", -3, 3, 0, 0.1);
   controls[TAR_Y] = ModelerControl("Target Y", -3, 3, 0, 0.1);
