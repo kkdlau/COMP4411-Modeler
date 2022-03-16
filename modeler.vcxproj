@@ -194,6 +194,7 @@
     <ClInclude Include="bitmap.h" />
     <ClInclude Include="camera.h" />
     <ClInclude Include="CatModel.hpp" />
+    <ClInclude Include="debug_utils.h" />
     <ClInclude Include="Header.h" />
     <ClInclude Include="LSystem.hpp" />
     <ClInclude Include="MarchingCube.h" />

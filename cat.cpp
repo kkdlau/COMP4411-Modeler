@@ -475,8 +475,10 @@ void CatModel::draw() {
       s->end += offset;
   }
 
+
   seg0.draw();
 
+  debugger("\n");
   glPopMatrix();
 }
 

@@ -10,15 +10,31 @@
 #include <math.h>
 #include "modelerglobals.h"
 
+template <typename T> int sgn(T val) {
+    return (T(0) < val) - (val < T(0));
+}
+
 /**
 * constraint should be always positive
 */
 void wrap_angle(float& a, float based_angle, float constraint) {
-    if (a - based_angle < -constraint) {
-        a = based_angle - constraint;
-    } else if (a - based_angle > constraint) {
+    if (a < 0)
+        a += 1 * M_PI;
+
+    //if (based_angle < 0)
+    //    based_angle += 2 * M_PI;
+    debugger("a: %f - base: %f, constraint: %f", a, based_angle, constraint);
+    if (fabs(a - based_angle) <= constraint) {
+        return;
+    }
+    debugger("angle limit exceeded: %f > %f", fabs(a - based_angle), constraint);
+    if (a > based_angle) {
         a = based_angle + constraint;
     }
+    else {
+        a = based_angle - constraint;
+    }
+    debugger("new angle: %f", a);
 }
 
 struct PolarVector
@@ -109,13 +125,36 @@ public:
 
           PolarVector c_pv = PolarVector{ cdir_vector };
           PolarVector this_pv = PolarVector{ this_vector };
-          // wrap_angle(this_pv.lat, c_pv.lat, constraint);
+          wrap_angle(this_pv.lat, c_pv.lat, constraint);
           wrap_angle(this_pv.lon, c_pv.lon, constraint);
-          return this_pv.as_vector() + expected_start;
+          this_pv.r = -len;
+          Vec3f new_pos = this_pv.as_vector() + expected_end;
+          debugger_vec3(new_pos);
+          debugger_vec3(expected_start);
+          return new_pos;
       }
       else {
           return expected_start;
       }
+  }
+
+  void forward_fit_constraint() {
+      const float constraint = M_PI / 4;
+      if (par != nullptr) {
+          Vec3f cdir_vector = par->end - par->start;
+          Vec3f this_vector = end - start;
+
+          cdir_vector.normalize();
+          this_vector.normalize();
+
+          PolarVector c_pv = PolarVector{ cdir_vector };
+          PolarVector this_pv = PolarVector{ this_vector };
+          // wrap_angle(this_pv.lat, c_pv.lat, constraint);
+          wrap_angle(this_pv.lon, c_pv.lon, constraint);
+      }
+
+      if (child != nullptr)
+          child->forward_fit_constraint();
   }
 
   void move_to(float x, float y, float z) {
@@ -135,8 +174,6 @@ public:
   void draw() {
     glPushMatrix();
     {
-    debugger("start: x y z: %f, %f, %f", start[2], start[1], start[0]);
-    debugger("end: x y z: %f, %f, %f", end[0], end[1], end[2]);
       glTranslated(start[2], start[1], start[0]);
       glRotated((M_PI - lon) / M_PI * 180, 0, 1, 0);
       glRotated((2 * M_PI - (M_PI / 2 - lat)) / M_PI * 180, 1, 0, 0);
