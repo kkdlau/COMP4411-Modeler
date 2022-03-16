@@ -2,7 +2,6 @@
 #include "vec.h"
 #include "gl_header.h"
 #include "debug_utils.h"
-//
 #include "modelerapp.h"
 #include "modelerdraw.h"
 #include "modelerview.h"
@@ -114,9 +113,9 @@ public:
   }
 
   Vec3f fit_angle_constraint(Vec3f expected_start, Vec3f expected_end) {
-      // todo: make the constriant become adjustable
+      // todo: make the constraint become adjustable
       const float constraint = M_PI / 4;
-      if (child != nullptr) {
+      if (0) {
           Vec3f cdir_vector = child->end - child->start;
           Vec3f this_vector = expected_end - expected_start;
 
@@ -138,8 +137,38 @@ public:
       }
   }
 
-  void forward_fit_constraint() {
+  void forward_fit_constraint(Vec3f normal) { // assume the normal is in the right orientation
       const float constraint = M_PI / 4;
+      
+      Vec3f this_vector = end - start;
+      //printf("this vector %f %f %f \t", this_vector[0], this_vector[1], this_vector[2]);
+      this_vector.normalize();
+      normal.normalize();
+      double theta = acos(this_vector * normal);
+      //theta = theta / 180 * M_PI;
+      if (theta > constraint) {
+          printf("theta exceed constraint %f \n", theta);
+          float ratio = constraint / theta;
+          printf("ratio is %f\n", ratio);
+          Vec3f normal_end = start + normal * len;
+          Vec3f new_dir = normal_end + (end - normal_end) * ratio;
+          new_dir = new_dir - start;
+          new_dir.normalize();
+          Vec3f new_end = start + new_dir * len;
+          move_to2(new_end);
+
+          this_vector = end - start;
+          this_vector.normalize();
+          theta = acos(this_vector * normal);
+          printf("theta after constraint is %f \n", theta);
+      }
+      
+      if (child != nullptr) {
+          printf("checking child\n");
+          Vec3f dir = end - start;
+          child->forward_fit_constraint(dir);
+      }
+      /*
       if (par != nullptr) {
           Vec3f cdir_vector = par->end - par->start;
           Vec3f this_vector = end - start;
@@ -155,6 +184,7 @@ public:
 
       if (child != nullptr)
           child->forward_fit_constraint();
+      */
   }
 
   void move_to(float x, float y, float z) {
@@ -164,11 +194,43 @@ public:
     lon = pv.lon;
     lat = pv.lat;
     pv.r = -len;
-    start = fit_angle_constraint(tar + pv.as_vector(), tar);
+    //start = fit_angle_constraint(tar + pv.as_vector(), tar);
+    start = tar + pv.as_vector();
     end = tar;
     if (par != nullptr) {
         par->move_to(start);
     }
+  }
+  /*
+  * Updates my own end
+  * Moves child to new start while preserving direction
+  * Doesn't touch parent
+  */
+  void move_to2(Vec3f point) {
+      move_to2(point[0], point[1], point[2]);
+  }
+  void move_to2(float x, float y, float z) { 
+      Vec3f tar{ x, y, z };
+      Vec3f dir = tar - start;
+      PolarVector pv{ dir };
+      lon = pv.lon;
+      lat = pv.lat;
+      end = tar;
+      if (child != nullptr) {
+          child->move_start(end);
+      }
+  }
+  void move_start(Vec3f p) {
+      move_start(p[0], p[1], p[2]);
+  }
+  void move_start(float x, float y, float z) {
+      PolarVector ori_dir = end - start;
+      Vec3f dir = ori_dir.as_vector();
+      start = { x, y, z };
+      end = start + dir;
+      if (child != nullptr) {
+          child->move_start(end);
+      }
   }
 
   void draw() {

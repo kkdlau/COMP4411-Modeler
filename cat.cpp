@@ -465,8 +465,7 @@ void CatModel::draw() {
       s->start += offset;
       s->end += offset;
   }
-
-
+  seg0.forward_fit_constraint(Vec3f{ 0, 1, 0 }); // real tail it will be 0,0,-1
   seg0.draw();
 
   debugger("\n");
@@ -507,7 +506,7 @@ int main() {
   controls[MOOD] = ModelerControl("Mood Cycling", 1, 3, 1, 2);
   controls[ORGANIC] = ModelerControl("Enable Organic Model", 0, 1, 1, 0);
   controls[L_SYS_DEPTH] = ModelerControl("L System Depth", 1, 3, 1, 1);
-  controls[TAR_X] = ModelerControl("target X", -3, 3, 0, 0.1);
+  controls[TAR_X] = ModelerControl("Target X", -3, 3, 0, 0.1);
   controls[TAR_Y] = ModelerControl("Target Y", -3, 3, 0, 0.1);
   controls[TAR_Z] = ModelerControl("Target Z", -3, 3, 0, 0.1);
 
