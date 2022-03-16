@@ -36,6 +36,9 @@ enum SampleModelControls {
   MOOD,
   ORGANIC,
   L_SYS_DEPTH,
+  TAR_X,
+  TAR_Y,
+  TAR_Z,
   NUMCONTROLS
 };
 

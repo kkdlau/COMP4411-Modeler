@@ -517,12 +517,21 @@ void CatModel::draw() {
   // if (VAL(ORGANIC) != 1) draw_cat();
   // else draw_organic();
 
+  Vec3f start_point{ 0,0,0 };
+
   Segment seg0{ 0, 0, 0, 1 };
-  seg0.lat = 0.3;
   Segment seg1{&seg0, 1 };
-  seg1.lat = 0.0;
-  Segment seg2{&seg1, 1};
-  seg2.lat = 0.3;
+
+  vector<Segment*> segs = { &seg0, &seg1 };
+  // todo: change back the x and z value
+  seg1.move_to(VAL(TAR_Z), VAL(TAR_Y), VAL(TAR_X));
+
+  Vec3f offset = start_point - seg0.start;
+
+  for (auto s: segs) {
+      s->start += offset;
+      s->end += offset;
+  }
 
   seg0.draw();
 
@@ -563,6 +572,9 @@ int main() {
   controls[MOOD] = ModelerControl("Mood Cycling", 1, 3, 1, 2);
   controls[ORGANIC] = ModelerControl("Enable Organic Model", 0, 1, 1, 0);
   controls[L_SYS_DEPTH] = ModelerControl("L System Depth", 1, 3, 1, 1);
+  controls[TAR_X] = ModelerControl("target X", -3, 3, 0, 0.1);
+  controls[TAR_Y] = ModelerControl("Target Y", -3, 3, 0, 0.1);
+  controls[TAR_Z] = ModelerControl("Target Z", -3, 3, 0, 0.1);
 
 
   // initialize texture maps

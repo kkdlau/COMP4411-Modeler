@@ -10,13 +10,15 @@
 #include <math.h>
 #include "modelerglobals.h"
 
-void wrap_angle(float& a, float constraint) {
-  const float half = M_PI / 2;
-  if (a < half - constraint) {
-    a = half - constraint;
-  } else if (a > half + constraint) {
-    a  = half + constraint;
-  }
+/**
+* constraint should be always positive
+*/
+void wrap_angle(float& a, float based_angle, float constraint) {
+    if (a - based_angle < -constraint) {
+        a = based_angle - constraint;
+    } else if (a - based_angle > constraint) {
+        a = based_angle + constraint;
+    }
 }
 
 struct PolarVector
@@ -26,12 +28,12 @@ struct PolarVector
   float lat;
   PolarVector(const Vec3f &v)
   {
-    float x = v[0];
+    float x = -v[0];
     float y = v[1];
     float z = v[2];
     r = sqrt(x * x + y * y + z * z);
-    lon = acos(x / sqrt(x * x + y * y)) * (y < 0 ? -1 : 1);
-    lat = acos(z / r);
+    lon = acos(x / sqrt(x * x + z * z)) * (z < 0 ? -1 : 1);
+    lat = acos(y / r);
   }
 
   PolarVector():PolarVector{{0,0,0}} {
@@ -41,7 +43,7 @@ struct PolarVector
   Vec3f as_vector() const
   {
       return {
-          r * sin(lat) * cos(lon),
+          -r * sin(lat) * cos(lon),
           r * cos(lat),
           r* sin(lat)* sin(lon)
   };
@@ -96,17 +98,24 @@ public:
   }
 
   Vec3f fit_angle_constraint(Vec3f expected_start, Vec3f expected_end) {
-    #if 0
-      Segment& parent = *par;
-      Vec3f diff = expected_end - expected_start;
-      PolarVector wrapped{diff};
-      wrap_angle(wrapped.lat, Segment::ANGLE_CONSTRAINT);
-      wrap_angle(wrapped.lon, Segment::ANGLE_CONSTRAINT);
-      Vec3f new_diff = wrapped.as_vector() - diff;
-      return expected_start + new_diff;
-    #else
-      return expected_start;
-    #endif
+      // todo: make the constriant become adjustable
+      const float constraint = M_PI / 4;
+      if (child != nullptr) {
+          Vec3f cdir_vector = child->end - child->start;
+          Vec3f this_vector = expected_end - expected_start;
+
+          cdir_vector.normalize();
+          this_vector.normalize();
+
+          PolarVector c_pv = PolarVector{ cdir_vector };
+          PolarVector this_pv = PolarVector{ this_vector };
+          // wrap_angle(this_pv.lat, c_pv.lat, constraint);
+          wrap_angle(this_pv.lon, c_pv.lon, constraint);
+          return this_pv.as_vector() + expected_start;
+      }
+      else {
+          return expected_start;
+      }
   }
 
   void move_to(float x, float y, float z) {
@@ -118,15 +127,17 @@ public:
     pv.r = -len;
     start = fit_angle_constraint(tar + pv.as_vector(), tar);
     end = tar;
+    if (par != nullptr) {
+        par->move_to(start);
+    }
   }
 
   void draw() {
-    end = get_end_point();
     glPushMatrix();
     {
-    debugger("start: x y z: %f, %f, %f", start[0], start[1], start[2]);
+    debugger("start: x y z: %f, %f, %f", start[2], start[1], start[0]);
     debugger("end: x y z: %f, %f, %f", end[0], end[1], end[2]);
-      glTranslated(start[0], start[1], start[2]);
+      glTranslated(start[2], start[1], start[0]);
       glRotated((M_PI - lon) / M_PI * 180, 0, 1, 0);
       glRotated((2 * M_PI - (M_PI / 2 - lat)) / M_PI * 180, 1, 0, 0);
       drawTextureCylinder(len, 0.1, 0.1, VAL(INDIVIDUAL));
