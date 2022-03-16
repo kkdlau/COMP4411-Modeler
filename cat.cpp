@@ -14,6 +14,7 @@
 #include <math.h>       /* log */
 
 #include "OrganicHead.h"
+#include "Segment.hpp"
 
 static int32_t ticks = 0;
 static const int32_t ANIMATION_MAX_TICKS = 30 * 2; // 5 seconds
@@ -253,7 +254,13 @@ void draw_head(float head_width, float head_height) {
     else {
         glTranslated(-head_width / 2, -head_height / 2, -0.8 / 2);
         drawBox(head_width, head_height, 0.8);
-        // draw ears
+
+        glPushMatrix();
+        glTranslated(head_width / 2, 3, 0.8 / 2);
+        glRotated(90, 1, 0, 0);
+        drawTorus(0.07, 0.15);
+        glPopMatrix();
+
         const float ear_width = head_width * 0.4;
         CatEar ear = { VAL(EAR_LENGTH), ear_width, head_height * 0.3, VAL(EAR_TRI_SEG) };
 
@@ -337,7 +344,8 @@ struct TreeModel {
   float component_length = 1;
   int depth = 3;
   TreeLSystem sys;
-  TreeModel() {
+  TreeModel(int d) {
+    depth = d;
     sys.turn_angle = turn_angle;
     sys.radius = radius;
     sys.component_length = component_length;
@@ -411,7 +419,9 @@ void draw_cat() {
                 float tail_part_length = VAL(TAIL_LENGTH) / components;
 
                 draw_tail_recursive(a, tail_part_length, components);
-                TreeModel{}.draw();
+                TreeModel{
+                  (int)VAL(L_SYS_DEPTH)
+                }.draw();
             }
             glPopMatrix();
         }
@@ -446,10 +456,16 @@ void CatModel::draw() {
   setDiffuseColor(1.0, 1.0, 1.0);
   glPushMatrix();
 
-  // glTranslated(1, 1, 1);
+  // draw_cat();
 
-  // drawTorus(0.07, 0.15, 16, 20, 0);
-  draw_cat();
+  Segment seg0{ 0, 0, 0, 1 };
+  seg0.lat = 0.3;
+  Segment seg1{&seg0, 1 };
+  seg1.lat = 0.0;
+  Segment seg2{&seg1, 1};
+  seg2.lat = 0.3;
+
+  seg0.draw();
 
   glPopMatrix();
 }
@@ -487,6 +503,8 @@ int main() {
   controls[INDIVIDUAL] = ModelerControl("Individual Instances", 1, 3, 1, 1);
   controls[MOOD] = ModelerControl("Mood Cycling", 1, 3, 1, 2);
   controls[ORGANIC_HEAD] = ModelerControl("Enable Organic Head", 0, 1, 1, 0);
+  controls[L_SYS_DEPTH] = ModelerControl("L System Depth", 1, 3, 1, 1);
+
 
   // initialize texture maps
   initTextureMap();

@@ -92,5 +92,8 @@
     <ClInclude Include="OrganicHead.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Segment.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

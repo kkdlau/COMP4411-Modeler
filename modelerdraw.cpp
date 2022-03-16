@@ -462,26 +462,42 @@ void drawPolygon(const vector<Triangle> &list) {
   }
 }
 
-void drawTorus(double r = 0.07, double c = 0.15, int rSeg = 16, int cSeg = 8,
-               int texture = 0) {
-  const double PI = 3.1415926535897932384626433832795;
-  const double TAU = 2 * PI;
+void drawTorus(double r, double c) {
+  ModelerDrawState *mds = ModelerDrawState::Instance();
+  int num_ring_seg, num_tube_seg;
+  switch (mds->m_quality) {
+    case HIGH:
+      num_ring_seg = 16;
+      num_tube_seg = 8;
+      break;
+    case MEDIUM:
+      num_ring_seg = 12;
+      num_tube_seg = 6;
+      break;
+    case LOW:
+      num_ring_seg = 8;
+      num_tube_seg = 4;
+      break;
+    case POOR:
+      num_ring_seg = 4;
+      num_tube_seg = 2;
+      break;
+    }
 
-  for (int i = 0; i < rSeg; i++) {
+  const double TAU = 2 * M_PI;
+
+  for (int i = 0; i < num_ring_seg; i++) {
     glBegin(GL_QUAD_STRIP);
-    for (int j = 0; j <= cSeg; j++) {
+    for (int j = 0; j <= num_tube_seg; j++) {
       for (int k = 0; k <= 1; k++) {
-        double s = (i + k) % rSeg + 0.5;
-        double t = j % (cSeg + 1);
+        // opengl red book implementation
+        double s = (i + k) % num_ring_seg + 0.5;
+        double t = j % (num_tube_seg + 1);
 
-        double x = (c + r * cos(s * TAU / rSeg)) * cos(t * TAU / cSeg);
-        double y = (c + r * cos(s * TAU / rSeg)) * sin(t * TAU / cSeg);
-        double z = r * sin(s * TAU / rSeg);
+        double x = (c + r * cos(s * TAU / num_ring_seg)) * cos(t * TAU / num_tube_seg);
+        double y = (c + r * cos(s * TAU / num_ring_seg)) * sin(t * TAU / num_tube_seg);
+        double z = r * sin(s * TAU / num_ring_seg);
 
-        double u = (i + k) / (float)rSeg;
-        double v = t / (float)cSeg;
-
-        // glTexCoord2d(u, v);
         glNormal3f(2 * x, 2 * y, 2 * z);
         glVertex3d(2 * x, 2 * y, 2 * z);
       }

@@ -204,6 +204,7 @@
     <ClInclude Include="modelerui.h" />
     <ClInclude Include="modelerview.h" />
     <ClInclude Include="OrganicHead.h" />
+    <ClInclude Include="Segment.hpp" />
     <ClInclude Include="TreeLSystem.hpp" />
     <ClInclude Include="vec.h" />
   </ItemGroup>
