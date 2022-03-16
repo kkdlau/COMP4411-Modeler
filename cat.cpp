@@ -422,72 +422,6 @@ void draw_cat() {
     glPopMatrix();
 }
 
-void draw_organic() {
-    glPushMatrix();
-    {
-        glTranslated(VAL(XPOS), VAL(YPOS), VAL(ZPOS));
-        glPushMatrix();
-        {
-            glTranslated(-VAL(BODY_WIDTH) / 2, VAL(LEG_LENGTH), -VAL(BODY_LENGTH) / 2);
-
-            // TODO: draw body
-
-            // draw legs
-            glPushMatrix();
-            {
-                // front_left
-                glTranslated(0.2, 0, 0.2);
-                draw_leg();
-            }
-            glPopMatrix();
-
-            glPushMatrix();
-            {
-                // front_right
-                glTranslated(VAL(BODY_WIDTH) - 0.2, 0, 0.2);
-                draw_leg();
-            }
-            glPopMatrix();
-
-            glPushMatrix();
-            {
-                // back_right
-                glTranslated(VAL(BODY_WIDTH) - 0.2, 0, VAL(BODY_LENGTH) - 0.2);
-                draw_leg();
-            }
-            glPopMatrix();
-
-            glPushMatrix();
-            {
-                // back_left
-                glTranslated(0.2, 0, VAL(BODY_LENGTH) - 0.2);
-                draw_leg();
-            }
-            glPopMatrix();
-
-            // TODO: draw head
-            glPushMatrix();
-            {
-                // head
-                glTranslated(VAL(BODY_WIDTH) / 2, VAL(BODY_DEPTH), -0.1);
-                
-            }
-            glPopMatrix();
-            
-            // TODO: draw tail 
-            glPushMatrix();
-            {
-                glTranslated(VAL(BODY_WIDTH) / 2, VAL(BODY_DEPTH) / 2,
-                    VAL(BODY_LENGTH));
-                
-            }
-            glPopMatrix();
-        }
-        glPopMatrix();
-    }
-    glPopMatrix();
-}
-
 void CatModel::draw() {
   ModelerView::draw();
   /* animation handling starts */
@@ -514,8 +448,7 @@ void CatModel::draw() {
   setDiffuseColor(1.0, 1.0, 1.0);
   glPushMatrix();
 
-  // if (VAL(ORGANIC) != 1) draw_cat();
-  // else draw_organic();
+  // draw_cat();
 
   Vec3f start_point{ 0,0,0 };
 
