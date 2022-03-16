@@ -462,7 +462,7 @@ void drawPolygon(const vector<Triangle> &list) {
   }
 }
 
-void drawTorus(double r = 0.07, double c = 0.15) {
+void drawTorus(double r, double c) {
   ModelerDrawState *mds = ModelerDrawState::Instance();
   int num_ring_seg, num_tube_seg;
   switch (mds->m_quality) {
@@ -490,6 +490,7 @@ void drawTorus(double r = 0.07, double c = 0.15) {
     glBegin(GL_QUAD_STRIP);
     for (int j = 0; j <= num_tube_seg; j++) {
       for (int k = 0; k <= 1; k++) {
+        // opengl red book implementation
         double s = (i + k) % num_ring_seg + 0.5;
         double t = j % (num_tube_seg + 1);
 

@@ -255,7 +255,6 @@ void draw_head(float head_width, float head_height) {
 
         glPushMatrix();
         glTranslated(head_width / 2, 3, 0.8 / 2);
-        float trous_size = (0.15 + 0.07) * 2;
         glRotated(90, 1, 0, 0);
         drawTorus(0.07, 0.15);
         glPopMatrix();
@@ -457,9 +456,6 @@ void CatModel::draw() {
   setDiffuseColor(1.0, 1.0, 1.0);
   glPushMatrix();
 
-  // glTranslated(1, 1, 1);
-
-  // drawTorus(0.07, 0.15, 16, 20, 0);
   draw_cat();
 
   glPopMatrix();
