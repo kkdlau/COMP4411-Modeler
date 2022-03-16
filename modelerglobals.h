@@ -36,6 +36,7 @@ enum SampleModelControls {
   EAR_TRI_SEG,
   MOOD,
   ORGANIC_HEAD,
+  L_SYS_DEPTH,
   NUMCONTROLS
 };
 
