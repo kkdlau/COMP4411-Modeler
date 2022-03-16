@@ -1,3 +1,4 @@
+// reference: http://paulbourke.net/geometry/polygonise/
 #ifndef MARCHINGCUBE_H
 #define MARCHINGCUBE_H
 
