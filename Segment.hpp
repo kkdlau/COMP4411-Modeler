@@ -9,6 +9,16 @@
 #include "texturedraw.hpp"
 #include <math.h>
 #include "modelerglobals.h"
+
+float wrap_angle(float& a, float constraint) {
+  const float half = M_PI / 2;
+  if (a < half - constraint) {
+    a = half - constraint;
+  } else if (a > half + constraint) {
+    a  = half + constraint;
+  }
+}
+
 struct PolarVector
 {
   float r;
@@ -50,6 +60,7 @@ private:
   }
 
 public:
+  static const float ANGLE_CONSTRAINT = M_PI / 4; // 45 degree
   Vec3f start;
   Vec3f end;
   float len;
@@ -83,7 +94,17 @@ public:
   }
 
   Vec3f fit_angle_constraint(Vec3f expected_start, Vec3f expected_end) {
-    return expected_start;
+    #if 1
+      Segment& parent = *par;
+      Vec3f diff = expected_end - expected_start;
+      PolarVector wrapped{diff};
+      wrap_angle(wrapped.lat, Segment::ANGLE_CONSTRAINT);
+      wrap_angle(wrapped.lon, Segment::ANGLE_CONSTRAINT);
+      Vec3f new_diff = wrapped.as_vector() - diff;
+      return expected_start + new_diff;
+    #else
+      return expected_start;
+    #endif
   }
 
   void move_to(float x, float y, float z) {
@@ -101,8 +122,8 @@ public:
     glPushMatrix();
     {
       glTranslated(start[0], start[1], start[2]);
-      glRotated(lon / 3.1415 * 180, 1, 0, 0);
-      glRotated(lat / 3.1415 * 180, 0, 1, 0);
+      glRotated(lon / M_PI * 180, 1, 0, 0);
+      glRotated(lat / M_PI * 180, 0, 1, 0);
       drawTextureCylinder(len, 0.03, 0.03, VAL(INDIVIDUAL));
       if (child)
         child->draw();
