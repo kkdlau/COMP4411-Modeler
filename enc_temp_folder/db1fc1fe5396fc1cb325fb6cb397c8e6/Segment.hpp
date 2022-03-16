@@ -124,8 +124,8 @@ public:
     end = get_end_point();
     glPushMatrix();
     {
-    debugger("start: x y z: %f, %f, %f", start[0], start[1], start[2]);
-    debugger("end: x y z: %f, %f, %f", end[0], end[1], end[2]);
+        debugger("start: x y z: %f, %f, %f", start[0], start[1], start[2]);
+        debugger("end: x y z: %f, %f, %f", end[0], end[1], end[2]);
       glTranslated(start[0], start[1], start[2]);
       glRotated((M_PI - lon) / M_PI * 180, 0, 1, 0);
       glRotated((2 * M_PI - (M_PI / 2 - lat)) / M_PI * 180, 1, 0, 0);
@@ -134,8 +134,9 @@ public:
     glPopMatrix();
 
     if (child) {
-        child->start = this->end;
+        child->start = end;
         child->draw();
+
     }
   }
 };

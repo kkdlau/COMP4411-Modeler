@@ -14,6 +14,7 @@
 #include <math.h>       /* log */
 
 #include "OrganicHead.h"
+#include "Segment.hpp"
 
 static int32_t ticks = 0;
 static const int32_t ANIMATION_MAX_TICKS = 30 * 2; // 5 seconds
@@ -456,7 +457,16 @@ void CatModel::draw() {
   setDiffuseColor(1.0, 1.0, 1.0);
   glPushMatrix();
 
-  draw_cat();
+  // draw_cat();
+
+  Segment seg0{ 0, 0, 0, 1 };
+  seg0.lat = 0.3;
+  Segment seg1{&seg0, 1 };
+  seg1.lat = 0.0;
+  Segment seg2{&seg1, 1};
+  seg2.lat = 0.3;
+
+  seg0.draw();
 
   glPopMatrix();
 }
