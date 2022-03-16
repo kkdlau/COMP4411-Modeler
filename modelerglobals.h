@@ -15,7 +15,6 @@ enum SampleModelControls {
   XPOS,
   YPOS,
   ZPOS,
-  HEIGHT,
   ROTATE,
   LIGHT_XPOS,
   LIGHT_YPOS,

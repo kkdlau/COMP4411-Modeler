@@ -246,27 +246,24 @@ void draw_head(float head_width, float head_height) {
   {    
     if (VAL(ORGANIC_HEAD) == 1) {
         glTranslated(-1.5, -1.5, -1.5);
-        OrganicHead head{ 3, 3, 3, 0.1, 0.0, (OrganicHead::OrganicShapes)1};
+        // OrganicHead(float l, float h, float w, float gs, double t, OrganicShapes os);
+        OrganicHead head{ 3, 3, 3, 0.1, 1.0, (OrganicHead::OrganicShapes)0};
         head.draw();
     }
     else {
         glTranslated(-head_width / 2, -head_height / 2, -0.8 / 2);
         drawBox(head_width, head_height, 0.8);
         // draw ears
-        //glTranslated(0, head_height, 0);
-        //glTranslated(0, -head_height, 0);
         const float ear_width = head_width * 0.4;
         CatEar ear = { VAL(EAR_LENGTH), ear_width, head_height * 0.3, VAL(EAR_TRI_SEG) };
 
         glPushMatrix();
         glTranslated(ear_width / 2, head_height, 0);
-        if (VAL(ORGANIC_HEAD) == 1) glTranslated(0.2 * 0.5, 0, 0);
         glRotated(VAL(ROTATE), 1, 0, 0);
         ear.draw();
         glPopMatrix();
 
         glPushMatrix();
-        if (VAL(ORGANIC_HEAD) == 1) glTranslated(0.2 * 0.5, 0, 0);
         glTranslated((double)head_width - ear_width / 2, head_height, 0);
         glRotated(VAL(ROTATE), 1, 0, 0);
         ear.draw();
@@ -465,7 +462,6 @@ int main() {
   controls[XPOS] = ModelerControl("X Position", -5, 5, 0.1f, 0);
   controls[YPOS] = ModelerControl("Y Position", 0, 5, 0.1f, 0);
   controls[ZPOS] = ModelerControl("Z Position", -5, 5, 0.1f, 0);
-  controls[HEIGHT] = ModelerControl("Height", 1, 2.5, 0.1f, 1);
   controls[ROTATE] = ModelerControl("Rotate", 0, 30, 1, 0);
   controls[TAIL_ANGLE] = ModelerControl("Tail Curvature", -30, 30, 1, 0);
   controls[TAIL_LENGTH] = ModelerControl("Tail Length", 1.5, 3, 0.1, 2.5);
