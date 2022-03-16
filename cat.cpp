@@ -13,6 +13,8 @@
 #include "modelerglobals.h"
 #include <math.h>       /* log */
 
+#include "OrganicHead.h"
+
 static int32_t ticks = 0;
 static const int32_t ANIMATION_MAX_TICKS = 30 * 2; // 5 seconds
 
@@ -241,51 +243,59 @@ struct CatMouth {
 };
 void draw_head(float head_width, float head_height) {
   glPushMatrix();
-  {
-    glTranslated(-head_width / 2, -head_height / 2, -0.8 / 2);
-    drawBox(head_width, head_height, 0.8);
-    // draw ears
-    glTranslated(0, head_height, 0);
-    glTranslated(0, -head_height, 0);
-    const float ear_width = head_width * 0.4;
-    CatEar ear = {VAL(EAR_LENGTH), ear_width, head_height * 0.3, VAL(EAR_TRI_SEG)};
+  {    
+    if (VAL(ORGANIC_HEAD) == 1) {
+        glTranslated(-1.5, -1.5, -1.5);
+        OrganicHead head{ 3, 3, 3, 0.1, 0.0, (OrganicHead::OrganicShapes)1};
+        head.draw();
+    }
+    else {
+        glTranslated(-head_width / 2, -head_height / 2, -0.8 / 2);
+        drawBox(head_width, head_height, 0.8);
+        // draw ears
+        //glTranslated(0, head_height, 0);
+        //glTranslated(0, -head_height, 0);
+        const float ear_width = head_width * 0.4;
+        CatEar ear = { VAL(EAR_LENGTH), ear_width, head_height * 0.3, VAL(EAR_TRI_SEG) };
 
-    glPushMatrix();
-    glTranslated(ear_width / 2, head_height, 0);
-    glRotated(VAL(ROTATE), 1, 0, 0);
-    ear.draw();
-    glPopMatrix();
+        glPushMatrix();
+        glTranslated(ear_width / 2, head_height, 0);
+        if (VAL(ORGANIC_HEAD) == 1) glTranslated(0.2 * 0.5, 0, 0);
+        glRotated(VAL(ROTATE), 1, 0, 0);
+        ear.draw();
+        glPopMatrix();
+
+        glPushMatrix();
+        if (VAL(ORGANIC_HEAD) == 1) glTranslated(0.2 * 0.5, 0, 0);
+        glTranslated((double)head_width - ear_width / 2, head_height, 0);
+        glRotated(VAL(ROTATE), 1, 0, 0);
+        ear.draw();
+        glPopMatrix();
+        // draw eyes
+        setDiffuseColor(0.0, 0.0, 0.0);
+        float eye_width = head_width * 0.2;
+        float eye_height = head_height * 0.2;
+        CatEye eye = { VAL(MOOD), eye_width, eye_height };
+        glPushMatrix();
+        glTranslated(0.3 * head_width, 0.7 * head_height, -0.01); // left eye
+        eye.draw();
+        glPopMatrix();
+
+        glPushMatrix();
+        glTranslated(0.7 * head_width, 0.7 * head_height, -0.01); // right eye
+        eye.draw();
+        glPopMatrix();
+        // draw mouth
+        float mouth_width = head_width * 0.4;
+        float mouth_height = head_height * 0.2;
+        CatMouth mouth = { VAL(MOOD), mouth_width, mouth_height };
+        glPushMatrix();
+        glTranslated(head_width / 2, 0.3 * head_height, -0.01);
+        mouth.draw();
+        glPopMatrix();
+    }
     
-    glPushMatrix();
-    glTranslated(head_width - ear_width / 2, head_height, 0);
-    glRotated(VAL(ROTATE), 1, 0, 0);
-    ear.draw();
-    glPopMatrix();
-    // draw eyes
-    setDiffuseColor(0.0, 0.0, 0.0);
-    float eye_width = head_width * 0.2;
-    float eye_height = head_height * 0.2;
-    CatEye eye = { VAL(MOOD), eye_width, eye_height};
-    glPushMatrix();
-    glTranslated(0.3 * head_width, 0.7 * head_height, -0.01); // left eye
-    eye.draw();
-    glPopMatrix();
-
-    glPushMatrix();
-    glTranslated(0.7 * head_width, 0.7 * head_height, -0.01); // right eye
-    eye.draw();
-    glPopMatrix();
-    // draw mouth
-    float mouth_width = head_width * 0.4;
-    float mouth_height = head_height * 0.2;
-    CatMouth mouth = { VAL(MOOD), mouth_width, mouth_height };
-    glPushMatrix();
-    glTranslated(head_width / 2, 0.3 * head_height, -0.01);
-    mouth.draw();
-    glPopMatrix();
-
     setDiffuseColor(1.0, 1.0, 1.0);
-    
   }
   glPopMatrix();
 }
@@ -480,6 +490,7 @@ int main() {
 
   controls[INDIVIDUAL] = ModelerControl("Individual Instances", 1, 3, 1, 1);
   controls[MOOD] = ModelerControl("Mood Cycling", 1, 3, 1, 2);
+  controls[ORGANIC_HEAD] = ModelerControl("Enable Organic Head", 0, 1, 1, 0);
 
   // initialize texture maps
   initTextureMap();
