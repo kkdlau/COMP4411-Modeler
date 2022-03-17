@@ -401,21 +401,48 @@ void draw_cat() {
             }
             glPopMatrix();
 
+            
+
             glPushMatrix();
             {
-                glTranslated(VAL(BODY_WIDTH) / 2, VAL(BODY_DEPTH) / 2,
-                    VAL(BODY_LENGTH));
-                float a = VAL(TAIL_ANGLE);
-                run_if_animate([&] { a = animation_progress() * 40 - 10; });
-                int components = VAL(NUM_TAIL_COMPONENT);
-                float tail_part_length = VAL(TAIL_LENGTH) / components;
+                if (!VAL(SHOW_KI_TAIL)) {
+                    glTranslated(VAL(BODY_WIDTH) / 2, VAL(BODY_DEPTH) / 2,
+                        VAL(BODY_LENGTH));
+                    float a = VAL(TAIL_ANGLE);
+                    run_if_animate([&] { a = animation_progress() * 40 - 10; });
+                    int components = VAL(NUM_TAIL_COMPONENT);
+                    float tail_part_length = VAL(TAIL_LENGTH) / components;
 
-                draw_tail_recursive(a, tail_part_length, components);
-                TreeModel{
-                  (int)VAL(L_SYS_DEPTH)
-                }.draw();
+                    draw_tail_recursive(a, tail_part_length, components);
+                    TreeModel{
+                      (int)VAL(L_SYS_DEPTH)
+                    }.draw();
+                }
+                else {
+                    glTranslated(VAL(BODY_WIDTH) / 2, VAL(BODY_DEPTH) / 2,
+                        VAL(BODY_LENGTH));
+                    glRotatef(90, 1, 0, 0);
+                    Vec3f start_point{ 0,0,0 };
+
+                    Segment seg0{ 0, 0, 0, 1, VAL(KI_ANGLE_CONSTRAINT) };
+                    Segment seg1{ &seg0, 1,  VAL(KI_ANGLE_CONSTRAINT) };
+
+                    vector<Segment*> segs = { &seg0, &seg1 };
+                    // todo: change back the x and z value
+                    seg1.move_to(VAL(TAR_Z), VAL(TAR_Y), VAL(TAR_X));
+
+                    Vec3f offset = start_point - seg0.start;
+
+                    for (auto s : segs) {
+                        s->start += offset;
+                        s->end += offset;
+                    }
+                    seg0.forward_fit_constraint(Vec3f{ 0, 1, 0 }); // real tail it will be 0,0,-1
+                    seg0.draw();
+                }
             }
             glPopMatrix();
+            
         }
         glPopMatrix();
     }
@@ -448,28 +475,9 @@ void CatModel::draw() {
   setDiffuseColor(1.0, 1.0, 1.0);
   glPushMatrix();
 
-  // draw_cat();
+   draw_cat();
 
-  Vec3f start_point{ 0,0,0 };
-
-  Segment seg0{ 0, 0, 0, 1 };
-  Segment seg1{&seg0, 1 };
-
-  vector<Segment*> segs = { &seg0, &seg1 };
-  // todo: change back the x and z value
-  seg1.move_to(VAL(TAR_Z), VAL(TAR_Y), VAL(TAR_X));
-
-  Vec3f offset = start_point - seg0.start;
-
-  for (auto s: segs) {
-      s->start += offset;
-      s->end += offset;
-  }
-  seg0.forward_fit_constraint(Vec3f{ 0, 1, 0 }); // real tail it will be 0,0,-1
-  seg0.draw();
-
-  debugger("\n");
-  glPopMatrix();
+   glPopMatrix();
 }
 
 int main() {
@@ -509,6 +517,8 @@ int main() {
   controls[TAR_X] = ModelerControl("Target X", -3, 3, 0, 0.1);
   controls[TAR_Y] = ModelerControl("Target Y", -3, 3, 0, 0.1);
   controls[TAR_Z] = ModelerControl("Target Z", -3, 3, 0, 0.1);
+  controls[KI_ANGLE_CONSTRAINT] = ModelerControl("Angle Constraint for Inverse Kinematics", 10, 45, 1, 30);
+  controls[SHOW_KI_TAIL] = ModelerControl("Shows Inverse Kinematics Tail", 0, 1, 1, 0);
 
 
   // initialize texture maps

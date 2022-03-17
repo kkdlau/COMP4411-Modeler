@@ -39,6 +39,8 @@ enum SampleModelControls {
   TAR_X,
   TAR_Y,
   TAR_Z,
+  KI_ANGLE_CONSTRAINT,
+  SHOW_KI_TAIL,
   NUMCONTROLS
 };
 

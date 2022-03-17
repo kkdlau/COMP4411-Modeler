@@ -87,19 +87,22 @@ public:
   Segment *par = nullptr;
   Segment *child = nullptr;
 
-  Segment(float x, float y, float z, float len_) : start{x, y, z}
+  Segment(float x, float y, float z, float len_, float constraint) : start{x, y, z}
   {
+    ANGLE_CONSTRAINT = constraint / 180 * M_PI;
     len = len_;
     end = get_end_point();
   }
 
-  Segment(Segment *p, float len_)
+  Segment(Segment *p, float len_, float constraint)
   {
+    ANGLE_CONSTRAINT = constraint / 180 * M_PI;
     par = p;
     p->child = this;
     start = par->end;
     len = len_;
     end = get_end_point();
+
   }
 
   void move_to(Segment* s = nullptr) {
@@ -138,7 +141,7 @@ public:
   }
 
   void forward_fit_constraint(Vec3f normal) { // assume the normal is in the right orientation
-      const float constraint = M_PI / 4;
+      const float constraint = ANGLE_CONSTRAINT;
       
       Vec3f this_vector = end - start;
       //printf("this vector %f %f %f \t", this_vector[0], this_vector[1], this_vector[2]);
