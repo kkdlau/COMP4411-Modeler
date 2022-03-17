@@ -131,8 +131,6 @@ public:
           wrap_angle(this_pv.lon, c_pv.lon, constraint);
           this_pv.r = -len;
           Vec3f new_pos = this_pv.as_vector() + expected_end;
-          debugger_vec3(new_pos);
-          debugger_vec3(expected_start);
           return new_pos;
       }
       else {

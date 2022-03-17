@@ -7,9 +7,9 @@
 
 class OrganicHead {
 public:
-	enum OrganicShapes {
+	static enum OrganicShapes {
 		ELLIPSOID = 0,
-		HEART
+		HYPERBOLOID
 	};
 	std::vector<MarchingCube> cubes;
 	double threshold = 1; // x^2 + y^2 + z^2 = 1 (the 1 here)
