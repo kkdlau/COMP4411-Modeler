@@ -27,7 +27,7 @@
   - We did torus, which is opengl red book implementation
 - 2B L-system: yes
   - A L System tree is attached as the second tail of the cat
-  - You can "L System Depth" to control the tree size
+  - You can use "L System Depth" to control the tree size
 - 2B mood cycling: yes
   - "Mood Cycling" allows you to change the face of the cat
   - Also , the tail swinging speed varies according to the mood of the cat 
