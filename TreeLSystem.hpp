@@ -26,7 +26,7 @@ public:
     switch (c) {
     case 'F':
         // return "F[F[-[F]][F[+[F]]]]";
-         return "F[-[F]]][[+[F]]]]";
+        return "F[[-[F]]][[[+[F]]]]";
     default:
         return string{ c };
     }
@@ -34,9 +34,6 @@ public:
 
   void perform(const char c) {
     switch (c) {
-    case 'X': {
-
-    } break;
     case 'F': {
         //glTranslated(0, component_length, 0);
 
@@ -44,7 +41,6 @@ public:
         //glRotated(-90, 1, 0, 0);
         //glTranslated(-radius, -radius, -component_length / 2);
         //drawTextureCylinder(component_length, radius, radius, VAL(INDIVIDUAL));
-        glPushMatrix();
         glTranslated(-radius, -radius, 0);
         drawTextureCylinder(component_length, radius, radius, VAL(INDIVIDUAL));
         glTranslated(0, 0, component_length);
