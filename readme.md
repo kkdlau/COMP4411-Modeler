@@ -1,9 +1,11 @@
 # COMP4411 - Modeler
+## Basic Requirements  
+- We hooked the Rotate slider to the ears of the cat  
 
 ## Bonus (Bells and Whistles)
 
 - W dramatic light: yes
-  - You can check the light position
+  - You can set a new light position and increase the intensity.  
 - W adjustable LoD: yes
   - You can change the detailness of the tails by changing the "Number of tail components"
   - Or "Number of Triangle in ear"
@@ -22,7 +24,9 @@
 - B individual looking (not just red/green): yes
   - You can drag "Individual Instances" to see more
 - B frame all: yes 
+  - You will have to uncheck the Frame All function if you would like to use zoom  
 - BW up vector: yes
+  - Hold the ALT key and use the right mouse to twist the camera  
 - 2B new primitives for each: yes
   - We did torus, which is opengl red book implementation
 - 2B L-system: yes
@@ -30,7 +34,8 @@
   - You can use "L System Depth" to control the tree size
 - 2B mood cycling: yes
   - "Mood Cycling" allows you to change the face of the cat
-  - Also , the tail swinging speed varies according to the mood of the cat 
+  - Also, the tail swinging speed varies according to the mood of the cat 
+  - The light colour varies according to mood too  
 - 4B metaballs: yes
   - Set "Enable Organic Model" to 1 for enabling this feature
   - It will alter the cat's head

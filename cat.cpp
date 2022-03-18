@@ -73,7 +73,6 @@ void setIndividual() {
     ModelerApplication::Instance()->SetControlValue(HEAD_WIDTH, 1.3);
     ModelerApplication::Instance()->SetControlValue(HEAD_HEIGHT, 1.3);
     ModelerApplication::Instance()->SetControlValue(LEG_LENGTH, 1.3);
-    ModelerApplication::Instance()->SetControlValue(EAR_LENGTH, 0.5);
     ModelerApplication::Instance()->SetControlValue(BODY_DEPTH, 1.3);
     ModelerApplication::Instance()->SetControlValue(BODY_LENGTH, 4);
     ModelerApplication::Instance()->SetControlValue(BODY_WIDTH, 2);
@@ -83,7 +82,6 @@ void setIndividual() {
     ModelerApplication::Instance()->SetControlValue(HEAD_WIDTH, 2);
     ModelerApplication::Instance()->SetControlValue(HEAD_HEIGHT, 1.3);
     ModelerApplication::Instance()->SetControlValue(LEG_LENGTH, 0.5);
-    ModelerApplication::Instance()->SetControlValue(EAR_LENGTH, 1);
     ModelerApplication::Instance()->SetControlValue(BODY_DEPTH, 1.3);
     ModelerApplication::Instance()->SetControlValue(BODY_LENGTH, 4);
     ModelerApplication::Instance()->SetControlValue(BODY_WIDTH, 3);
@@ -93,7 +91,6 @@ void setIndividual() {
     ModelerApplication::Instance()->SetControlValue(HEAD_WIDTH, 1.8);
     ModelerApplication::Instance()->SetControlValue(HEAD_HEIGHT, 2);
     ModelerApplication::Instance()->SetControlValue(LEG_LENGTH, 2.5);
-    ModelerApplication::Instance()->SetControlValue(EAR_LENGTH, 2);
     ModelerApplication::Instance()->SetControlValue(BODY_DEPTH, 1.5);
     ModelerApplication::Instance()->SetControlValue(BODY_LENGTH, 6);
     ModelerApplication::Instance()->SetControlValue(BODY_WIDTH, 2);
@@ -245,7 +242,7 @@ struct CatMouth {
 void draw_head(float head_width, float head_height) {
   glPushMatrix();
   {    
-        float xlhead_width = 2, xlhead_height = 2;
+        float xlhead_width = 1.5 * head_width, xlhead_height = 1.5 * head_height;
         if (VAL(ORGANIC) != 1) {
             glTranslated(-head_width / 2, -head_height / 2, -0.8 / 2);
             drawBox(head_width, head_height, 0.8);
@@ -264,7 +261,7 @@ void draw_head(float head_width, float head_height) {
         glPopMatrix();
 
         const float ear_width = head_width * 0.4;
-        CatEar ear = { VAL(EAR_LENGTH), ear_width, head_height * 0.3, VAL(EAR_TRI_SEG) };
+        CatEar ear = { 1, ear_width, head_height * 0.3, VAL(EAR_TRI_SEG) };
         float ear_x1 = (VAL(ORGANIC) == 1) ? ear_width : ear_width / 2;
         float ear_x2 = (VAL(ORGANIC) == 1) ? xlhead_width - ear_width : xlhead_width - ear_width / 2;
         glPushMatrix();
@@ -506,7 +503,6 @@ int main() {
   controls[HEAD_WIDTH] = ModelerControl("Head Width", 1.3, 2, 0.1, 1.3);
   controls[HEAD_HEIGHT] = ModelerControl("Head Height", 1.3, 3, 0.1, 1.3);
   controls[LEG_LENGTH] = ModelerControl("Leg Length", 0.5, 3, 0.1, 1.3);
-  controls[EAR_LENGTH] = ModelerControl("Ear Length", 0.5, 2, 0.1, 0.5);
   controls[EAR_TRI_SEG] = ModelerControl("Number of Triangle in ear", 4, 8, 2, 4);
 
   controls[BODY_DEPTH] = ModelerControl("Body Depth", 1.3, 3, 0.1, 1.3);

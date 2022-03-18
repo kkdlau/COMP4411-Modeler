@@ -166,7 +166,7 @@ void ModelerApplication::RedrawLoop(void *) {
       auto& cam = *view.m_camera;
       cam.setLookAt(Vec3f(VAL(XPOS), VAL(YPOS), VAL(ZPOS)));
 #define MODEL_WIDTH VAL(BODY_WIDTH)
-#define MODEL_HEIGHT VAL(LEG_LENGTH) + VAL(HEAD_HEIGHT) / 2 + VAL(EAR_LENGTH)
+#define MODEL_HEIGHT VAL(LEG_LENGTH) + VAL(HEAD_HEIGHT) / 2
 #define MODEL_LENGTH VAL(BODY_LENGTH) + VAL(TAIL_LENGTH)
       int max = (MODEL_HEIGHT > MODEL_LENGTH) ? MODEL_HEIGHT : MODEL_LENGTH;
       cam.setDolly(-4.1* max);

@@ -29,7 +29,6 @@ enum SampleModelControls {
   BODY_LENGTH,
   TAIL_LENGTH,
   BODY_DEPTH,
-  EAR_LENGTH,
   INDIVIDUAL,
   ANIMATION,
   EAR_TRI_SEG,
