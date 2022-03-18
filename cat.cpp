@@ -245,26 +245,36 @@ struct CatMouth {
 void draw_head(float head_width, float head_height) {
   glPushMatrix();
   {    
-        glTranslated(-head_width / 2, -head_height / 2, -0.8 / 2);
-        drawBox(head_width, head_height, 0.8);
+        float xlhead_width = 2, xlhead_height = 2;
+        if (VAL(ORGANIC) != 1) {
+            glTranslated(-head_width / 2, -head_height / 2, -0.8 / 2);
+            drawBox(head_width, head_height, 0.8);
+            xlhead_width = head_width, xlhead_height = head_height;
+        }
+        else {
+            glTranslated(-xlhead_width / 2, -xlhead_height / 2, -0.8 / 2);
+            OrganicHead head = OrganicHead{ xlhead_width, xlhead_height, 0.8f, 0.05f, 1.0f, (OrganicHead::OrganicShapes)0 };
+            head.draw();
+        }
 
         glPushMatrix();
-        glTranslated(head_width / 2, 3, 0.8 / 2);
+        glTranslated(xlhead_width / 2, 3, 0.8 / 2);
         glRotated(90, 1, 0, 0);
         drawTorus(0.07, 0.15);
         glPopMatrix();
 
         const float ear_width = head_width * 0.4;
         CatEar ear = { VAL(EAR_LENGTH), ear_width, head_height * 0.3, VAL(EAR_TRI_SEG) };
-
+        float ear_x1 = (VAL(ORGANIC) == 1) ? ear_width : ear_width / 2;
+        float ear_x2 = (VAL(ORGANIC) == 1) ? xlhead_width - ear_width : xlhead_width - ear_width / 2;
         glPushMatrix();
-        glTranslated(ear_width / 2, head_height, 0);
+        glTranslated(ear_x1, 0.85*xlhead_height, 0);
         glRotated(VAL(ROTATE), 1, 0, 0);
         ear.draw();
         glPopMatrix();
 
         glPushMatrix();
-        glTranslated((double)head_width - ear_width / 2, head_height, 0);
+        glTranslated(ear_x2, 0.85*xlhead_height, 0);
         glRotated(VAL(ROTATE), 1, 0, 0);
         ear.draw();
         glPopMatrix();
@@ -274,12 +284,12 @@ void draw_head(float head_width, float head_height) {
         float eye_height = head_height * 0.2;
         CatEye eye = { VAL(MOOD), eye_width, eye_height };
         glPushMatrix();
-        glTranslated(0.3 * head_width, 0.7 * head_height, -0.01); // left eye
+        glTranslated(0.3 * xlhead_width, 0.7 * xlhead_height, -0.01); // left eye
         eye.draw();
         glPopMatrix();
 
         glPushMatrix();
-        glTranslated(0.7 * head_width, 0.7 * head_height, -0.01); // right eye
+        glTranslated(0.7 * xlhead_width, 0.7 * xlhead_height, -0.01); // right eye
         eye.draw();
         glPopMatrix();
         // draw mouth
@@ -287,7 +297,7 @@ void draw_head(float head_width, float head_height) {
         float mouth_height = head_height * 0.2;
         CatMouth mouth = { VAL(MOOD), mouth_width, mouth_height };
         glPushMatrix();
-        glTranslated(head_width / 2, 0.3 * head_height, -0.01);
+        glTranslated(xlhead_width / 2, 0.3 * xlhead_height, -0.01);
         mouth.draw();
         glPopMatrix();
     
@@ -475,7 +485,7 @@ void CatModel::draw() {
   setDiffuseColor(1.0, 1.0, 1.0);
   glPushMatrix();
 
-   draw_cat();
+  draw_cat();
 
    glPopMatrix();
 }
@@ -515,8 +525,8 @@ int main() {
   controls[ORGANIC] = ModelerControl("Enable Organic Model", 0, 1, 1, 0);
   controls[L_SYS_DEPTH] = ModelerControl("L System Depth", 1, 3, 1, 1);
   controls[TAR_X] = ModelerControl("Target X", -3, 3, 0, 0.1);
-  controls[TAR_Y] = ModelerControl("Target Y", -3, 3, 0, 0.1);
-  controls[TAR_Z] = ModelerControl("Target Z", -3, 3, 0, 0.1);
+  controls[TAR_Z] = ModelerControl("Target Y", -3, 3, 0, 0.1);
+  controls[TAR_Y] = ModelerControl("Target Z", -3, 3, 0, 0.1);
   controls[KI_ANGLE_CONSTRAINT] = ModelerControl("Angle Constraint for Inverse Kinematics", 10, 45, 1, 30);
   controls[SHOW_KI_TAIL] = ModelerControl("Shows Inverse Kinematics Tail", 0, 1, 1, 0);
 

@@ -8,27 +8,25 @@ OrganicHead::OrganicHead(float l, float h, float w, float gs, double t, OrganicS
 	initializeCubes();
 }
 
-/*
-* the ellipsoid function : 1/x_rad x^2 + 1/y_rad y^2 + 1/z_rad z^2 = 1
-*/ 
+
 double OrganicHead::getIsoLevel(Vec3f p) {
 	float radius[3]{ length / 2, height / 2, width / 2 };
 	switch (shape) {
 	case ELLIPSOID: {
+		// the ellipsoid function : 1/x_rad x^2 + 1/y_rad y^2 + 1/z_rad z^2 = 1
 		double coef[3] = { 1 / pow(radius[0], 2), 1 / pow(radius[1], 2), 1 / pow(radius[2], 2) };
 		double isoLevel = 0;
-		for (int i = 0; i < 3; ++i) {
+		for (int i = 0; i < 3; ++i) 
 			isoLevel += (coef[i] * pow(p[i] - radius[i], 2));
-		}
 		return isoLevel;
 	}
-	case HEART: default: {
-		Vec3f p2 = p - Vec3f{radius[0], radius[1], radius[2]};
-		double first = pow(p2[0], 2) + 2.25 * pow(p2[2], 2) + pow(p2[1], 2) - 1;
-		first = pow(first, 3);
-		double second = pow(p2[0], 2) * pow(p2[1], 3);
-		double third = 9 / 200 * pow(p2[2], 2) * pow(p2[1], 3);
-		return first - second - third;
+	case HYPERBOLOID: {
+		// the hyperboloid function: 1/x_rad x^2 + 1/y_rad y^2 - 1/z_rad z^2 = 1
+		double coef[3] = { 1 / (radius[0] * radius[0]), 1 / (radius[1] * radius[1]), - 1 / (radius[2] * radius[2]) };
+		double isoLevel = 0;
+		for (int i = 0; i < 3; ++i)
+			isoLevel += (coef[i] * pow(p[i] - radius[i], 2));
+		return isoLevel;
 	}
 	}
 }

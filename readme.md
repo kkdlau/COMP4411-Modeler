@@ -35,6 +35,34 @@
 
 ## Bonus (Bells and Whistles)
 
+- W dramatic light: yes
+  - You can check the light position
+- W adjustable LoD: yes
+  - You can change the detailness of the tails by changing the "Number of tail components"
+  - Or "Number of Triangle in ear"
+  - Or even changes the detailness of the torus by changing the model quality
+- W your idea: yes
+  - You can change the dimension of the model
+  - So basically it is an extension of adjustable LoD
+- B texture map: yes
+  - Only implemented for the cat body, but it is good enough
+- B polygonal faces (triangles): yes 
+  - Please refer to the ear at the creature (cat) head
+  - Again, you can control the number of triangles by dragging "Number of Triangle in ear"
+- B animation: yes
+  - a swinging tail, it's cute, isn't it?
+  - Btw make sure set "Shows Inverse Kinematics Tail" to 0 to see our cute cute swinging tail
+- B individual looking (not just red/green): yes
+  - You can drag "Individual Instances" to see more
+- B frame all: yes 
+- BW up vector: yes
+- 2B new primitives for each: yes
+- 2B L-system: yes
+- 2B mood cycling: yes
+- 4B metaballs: yes
+- 8B goal-oriented motion: yes
+- +4B joint contraints: yes
+
  - [x] 1W: Change the default light source to illuminate your scene more dramatically. (M)
 
  - [x] 1W: Allow for adjustable levels of detail for your character. You will need to add a UI control for this. (D)
